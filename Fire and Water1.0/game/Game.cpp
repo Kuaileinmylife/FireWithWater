@@ -37,9 +37,10 @@ void game_run(Game* game) {
         game_draw(game);
         Sleep(16); // 控制帧率
     }
-
-    // TODO: 关闭图形窗口
-    // closegraph();
+    GameState state = game->state;
+    if (state == STATE_WIN || state == STATE_LOSE) {
+        closegraph();
+    }
 }
 
 // 处理输入
@@ -48,6 +49,19 @@ void game_handle_input(Game* game) {
     // input_update(&g_input);
 
     // TODO: 根据游戏状态处理输入
+    switch (game->state) {
+    case STATE_MENU:
+        // 处理菜单输入
+        break;
+    case STATE_GAME:
+        // 处理游戏输入
+        break;
+    case STATE_PAUSE:
+        // 处理暂停输入
+        break;
+    default:
+        break;
+    }
 }
 
 // 更新游戏逻辑
@@ -66,22 +80,34 @@ void game_update(Game* game) {
 
 // 绘制游戏
 void game_draw(Game* game) {
-    if (!game) return;
+    // 1. 清屏（准备画新的一帧）
+    render_clear();
 
-    // TODO: 清屏
-    // render_clear();
-
-    // TODO: 根据状态绘制
+    // 2. 根据游戏状态绘制不同界面
     switch (game->state) {
     case STATE_MENU:
-        // ui_draw_menu(...);
+        ui_draw_menu(0);  // 画主菜单
         break;
+
     case STATE_GAME:
-        // ui_draw_game(...);
+        // 画游戏界面：玩家、关卡、UI
+        ui_draw_game(&game->firePlayer, &game->waterPlayer, game->currentLevelNum);
         break;
-        // TODO: 其他状态
+
+    case STATE_PAUSE:
+        ui_draw_game(&game->firePlayer, &game->waterPlayer, game->currentLevelNum);
+        ui_draw_pause();  // 再画暂停界面（覆盖在上面）
+        break;
+
+    case STATE_WIN:
+        ui_draw_win(game->currentLevelNum);  // 胜利界面
+        break;
+
+    case STATE_LOSE:
+        ui_draw_lose();  // 失败界面
+        break;
     }
 
-    // TODO: 显示画面
-    // render_present();
+    // 3. 显示到屏幕（双缓冲交换）
+    render_present();
 }

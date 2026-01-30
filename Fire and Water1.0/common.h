@@ -1,7 +1,12 @@
 //所有游戏相关的定义都在这里
 #pragma once
+#include <easyx.h>
+#include <graphics.h>
+#include <conio.h>
+#include <windows.h>
 
 // ========== 基础类型 ==========
+
 typedef struct {
     float x, y;
 } Vector2;
@@ -56,7 +61,7 @@ typedef struct {
     TileType tiles[20][20];       // 地图格子
     Vector2 fireStart;            // 火人起点
     Vector2 waterStart;           // 水人起点
-    Vector2 doorPosition;         // 门的位置
+    Rect doorPosition;            // 门的位置
     TrapType traps[10];           // 陷阱类型
     Rect trapRects[10];           // 陷阱位置
     int trapCount;                // 陷阱数量
@@ -106,3 +111,5 @@ typedef struct {
 #define COLOR_TRAP_SPIKE RGB(100, 100, 100)  // 尖刺灰色
 #define COLOR_DOOR      RGB(50, 200, 50)     // 门绿色
 #define COLOR_BG        RGB(200, 230, 255)   // 背景天蓝色
+
+//extern TextureManager g_textures;  // 全局贴图管理器

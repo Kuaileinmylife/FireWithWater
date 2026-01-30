@@ -128,6 +128,7 @@
     <ClInclude Include="game\Level.h" />
     <ClInclude Include="game\Player.h" />
     <ClInclude Include="graphics\Render.h" />
+    <ClInclude Include="graphics\Texture.h" />
     <ClInclude Include="graphics\UI.h" />
     <ClInclude Include="input\Input.h" />
     <ClInclude Include="physic\Collision.h" />
@@ -137,6 +138,7 @@
     <ClCompile Include="game\Level.cpp" />
     <ClCompile Include="game\Player.cpp" />
     <ClCompile Include="graphics\Render.cpp" />
+    <ClCompile Include="graphics\Texture.cpp" />
     <ClCompile Include="graphics\UI.cpp" />
     <ClCompile Include="input\Input.cpp" />
     <ClCompile Include="main.cpp" />
