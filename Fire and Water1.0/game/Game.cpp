@@ -1,29 +1,48 @@
 #include "game.h"
 #include "../common.h"
+#include "../graphics/render.h"
+#include "../graphics/texture.h"
 #include "player.h"
 #include "level.h"
 #include "../physic/collision.h"
-#include "../graphics/render.h"
 #include "../graphics/ui.h"
 #include "../input/input.h"
 #include <graphics.h>
 #include <conio.h>
 #include <windows.h>
 
+static DWORD g_lastInputTime = 0;
+const DWORD INPUT_COOLDOWN = 200;
+
 // 全局输入状态
 InputState g_input;
+
+extern TextureManager g_textures;
 
 // 初始化游戏
 void game_init(Game* game) {
     if (!game) return;
 
-    // TODO: 初始化游戏状态
+    // 1. 初始化图形窗口
+    render_init();
+
+    // 2. 初始化贴图管理器
+    tex_init(&g_textures);
+    tex_load_all(&g_textures);
+
+    // 3. 初始化游戏状态
     game->state = STATE_MENU;
     game->currentLevelNum = 1;
     game->isRunning = true;
+    game->menuSelection = 0;
+    game->pauseSelection = 0;
 
-    // TODO: 初始化图形窗口
-    // initgraph 等代码
+    // 4. 初始化玩家
+    player_init(&game->firePlayer, PLAYER_FIRE, 100, 400);
+    player_init(&game->waterPlayer, PLAYER_WATER, 150, 400);
+
+    // 5. 初始化关卡
+    level_init(&game->currentLevel, game->currentLevelNum);
 }
 
 // 运行游戏主循环
@@ -45,21 +64,70 @@ void game_run(Game* game) {
 
 // 处理输入
 void game_handle_input(Game* game) {
-    // TODO: 更新输入状态
-    // input_update(&g_input);
+    // 1. 更新输入状态（检测哪些键被按下）
+    input_update(&g_input);  // 调用输入模块
 
-    // TODO: 根据游戏状态处理输入
+    // 获取当前时间
+    DWORD currentTime = GetTickCount();
+
+    // 2. 根据当前游戏状态处理不同输入
     switch (game->state) {
     case STATE_MENU:
-        // 处理菜单输入
+        // 菜单状态：W/S选择，回车确认（添加防抖）
+        if ((currentTime - g_lastInputTime) > INPUT_COOLDOWN) {
+            if (g_input.keyW) {
+                game->menuSelection--;
+                g_lastInputTime = currentTime;
+                if (game->menuSelection < 0) {
+                    game->menuSelection = 3;  // 循环到最后一个
+                }
+            }
+            if (g_input.keyS) {
+                game->menuSelection++;
+                g_lastInputTime = currentTime;
+                if (game->menuSelection > 3) {
+                    game->menuSelection = 0;  // 循环到第一个
+                }
+            }
+        }
+
+        // Enter 键确认（不需要防抖，可以快速确认）
+        if (g_input.keyEnter) {
+            if (game->menuSelection == 0) {
+                game->state = STATE_GAME;  // 开始游戏
+            }
+            else if (game->menuSelection == 3) {
+                game->isRunning = false;   // 退出游戏
+            }
+            // 其他选项暂时不做处理
+        }
         break;
+
     case STATE_GAME:
-        // 处理游戏输入
+        // 游戏状态：控制玩家移动
+        if (g_input.keyA) player_move(&game->firePlayer, -1);   // 火人左移
+        if (g_input.keyD) player_move(&game->firePlayer, 1);    // 火人右移
+        if (g_input.keyW) player_jump(&game->firePlayer);       // 火人跳跃
+
+        if (g_input.keyLeft) player_move(&game->waterPlayer, -1);  // 水人左
+        if (g_input.keyRight) player_move(&game->waterPlayer, 1);  // 水人右
+        if (g_input.keyUp) player_jump(&game->waterPlayer);        // 水人跳
+
+        // 游戏内功能键
+        if (g_input.keyEsc) game->state = STATE_PAUSE;  // 暂停游戏
         break;
+
     case STATE_PAUSE:
-        // 处理暂停输入
-        break;
-    default:
+        // 暂停状态：ESC返回游戏，回车选择菜单项
+        if (g_input.keyEsc) game->state = STATE_GAME;
+        if (g_input.keyEnter) {
+            if (game->pauseSelection == 0) {
+                game->state = STATE_GAME;  // 继续游戏
+            }
+            else {
+                game->state = STATE_MENU;  // 返回主菜单
+            }
+        }
         break;
     }
 }
@@ -68,10 +136,22 @@ void game_handle_input(Game* game) {
 void game_update(Game* game) {
     if (!game) return;
 
-    // TODO: 根据游戏状态更新
     switch (game->state) {
     case STATE_GAME:
-        // TODO: 更新玩家、检查碰撞等
+        // 更新玩家
+        player_update(&game->firePlayer);
+        player_update(&game->waterPlayer);
+
+        // 检查玩家是否死亡
+        if (!game->firePlayer.isAlive || !game->waterPlayer.isAlive) {
+            game->state = STATE_LOSE;
+        }
+
+        // 检查是否到达门口
+        if (level_check_door(&game->currentLevel, game->firePlayer.position) &&
+            level_check_door(&game->currentLevel, game->waterPlayer.position)) {
+            game->state = STATE_WIN;
+        }
         break;
     default:
         break;
@@ -81,21 +161,23 @@ void game_update(Game* game) {
 // 绘制游戏
 void game_draw(Game* game) {
     // 1. 清屏（准备画新的一帧）
-    render_clear();
+    cleardevice();
 
     // 2. 根据游戏状态绘制不同界面
     switch (game->state) {
     case STATE_MENU:
-        ui_draw_menu(0);  // 画主菜单
+        ui_draw_menu(game->menuSelection);  // 画主菜单
         break;
 
     case STATE_GAME:
         // 画游戏界面：玩家、关卡、UI
-        ui_draw_game(&game->firePlayer, &game->waterPlayer, game->currentLevelNum);
+        render_clear();
+        ui_draw_game(game, &g_textures);
         break;
 
     case STATE_PAUSE:
-        ui_draw_game(&game->firePlayer, &game->waterPlayer, game->currentLevelNum);
+        render_clear();
+        ui_draw_game(game, &g_textures);
         ui_draw_pause();  // 再画暂停界面（覆盖在上面）
         break;
 
@@ -108,6 +190,6 @@ void game_draw(Game* game) {
         break;
     }
 
-    // 3. 显示到屏幕（双缓冲交换）
+    // 3. 显示到屏幕
     render_present();
 }

@@ -9,6 +9,7 @@ void input_update(InputState* input) {
     input->keyW = (GetAsyncKeyState('W') & 0x8000) || (GetAsyncKeyState('w') & 0x8000);
     input->keyA = (GetAsyncKeyState('A') & 0x8000) || (GetAsyncKeyState('a') & 0x8000);
     input->keyD = (GetAsyncKeyState('D') & 0x8000) || (GetAsyncKeyState('d') & 0x8000);
+    input->keyS = (GetAsyncKeyState('S') & 0x8000) || (GetAsyncKeyState('s') & 0x8000);
 
     // 2. 水人控制（方向键中的 上/左/右）
     input->keyUp = (GetAsyncKeyState(VK_UP) & 0x8000);

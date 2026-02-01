@@ -1,7 +1,11 @@
 #pragma once
-#include "../common.h"
-#include "Render.h"
+//#include "../common.h"
+//#include "Render.h"
+//#include "../graphics/texture.h"
 
+// 前向声明，避免包含头文件
+struct Game;
+struct TextureManager;
 
 // 绘制主菜单
 // 负责人：柯然1
@@ -16,7 +20,7 @@ void ui_draw_menu(int selection);
 // 1：画背景(先纯色)
 // 2: 跟着地图设计画出平台，人物，出口，机关，陷阱等（要精细到每个东西的位置）
 // 3：显示关卡数，第一关需要有操作提示显示
-void ui_draw_game(Player* fire, Player* water, int levelNum);
+void ui_draw_game(Game* game, TextureManager* tm);
 
 // 绘制暂停界面
 // 负责人：柯然2

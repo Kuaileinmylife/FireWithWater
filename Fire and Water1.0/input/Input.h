@@ -6,6 +6,7 @@ typedef struct {
     bool keyW, keyA, keyD;          // 火人控制
     bool keyUp, keyLeft, keyRight;  // 水人控制
     bool keyEsc, keyEnter;          // 功能键
+    bool keyS;                      // 菜单键向下控制
 } InputState;
 
 // 更新输入状态

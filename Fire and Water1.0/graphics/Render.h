@@ -36,3 +36,10 @@ void render_text(int x, int y, const char* text, int color);
 //1:用easyx的批量绘图的函数
 //2：将绘制好的内容显示到窗口上
 void render_present();
+
+
+// 绘制贴图
+void render_texture(int x, int y, int w, int h, IMAGE* img);
+
+// 绘制贴图（带裁剪）
+void render_texture_clip(int x, int y, int w, int h, IMAGE* img, int srcX, int srcY, int srcW, int srcH);

@@ -29,7 +29,7 @@ void render_init() {
 
 // 清屏
 void render_clear() {
-    // TODO: 清除屏幕
+    // 1. 用背景色填充整个窗口
     cleardevice();
 }
 
@@ -44,14 +44,25 @@ void render_rect(int x, int y, int w, int h, int color) {
 void render_text(int x, int y, const char* text, int color) {
     // TODO: 在指定位置绘制文字
     settextcolor(color);
-    settextstyle(24, 0, _T("宋体"));
-    outtextxy(x, y, _T(text));
-    char str[] = "A W D分别为左_跳跃_右";
-    outtextxy(500, 10, str);
+    settextstyle(24, 0, "宋体");
+    outtextxy(x, y, text);
+   /* char str[] = "A W D分别为左_跳跃_右";
+    outtextxy(500, 10, str);*/
 }
 
 // 显示画面
 void render_present() {
     // TODO: 批量绘图
     FlushBatchDraw();
+}
+
+void render_texture(int x, int y, int w, int h, IMAGE* img) {
+    if (!img) return;
+    putimage(x, y, w, h, img, 0, 0);
+}
+
+void render_texture_clip(int x, int y, int w, int h,
+    IMAGE* img, int srcX, int srcY, int srcW, int srcH) {
+    if (!img) return;
+    putimage(x, y, w, h, img, srcX, srcY);
 }

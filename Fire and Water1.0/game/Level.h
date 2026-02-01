@@ -1,6 +1,9 @@
 #pragma once
 #include "../common.h"
 
+// 前向声明
+struct TextureManager;
+
 // 辅助函数，供level_init用
 // 添加陷阱到关卡（供 level_init 内部调用）
 static void add_trap(Level* level, float x, float y, float w, float h, TrapType type) {
@@ -31,7 +34,7 @@ void level_init(Level* level, int levelNum);
 // 功能；
 // 1；画地图背景，墙，平台，陷阱，门
 // 2；一定要设计好每个方块的尺寸，以及每个格子的像素
-void level_draw(const Level* level);
+void level_draw(const Level* level, TextureManager* tm);
 
 // 检测玩家是否到门口
 // 负责人；v071

@@ -1,5 +1,4 @@
 #pragma once
-#include "../common.h"
 #include <graphics.h>
 
 // 贴图ID枚举
@@ -25,22 +24,26 @@ typedef enum {
     TEX_TRAP_WATER,
     TEX_TRAP_SPIKE,
 
-    // 对象贴图
-    TEX_DOOR_CLOSED,
+    // 门贴图
     TEX_DOOR_OPEN,
+    TEX_DOOR_CLOSE,
 
     // 总贴图数量
     TEX_COUNT
 } TextureID;
 
 // 贴图管理器
-typedef struct {
-    IMAGE images[TEX_COUNT];  // EasyX的IMAGE数组
-    bool loaded;              // 是否已加载
-} TextureManager;
+struct TextureManager {
+    IMAGE images[TEX_COUNT];
+    bool loaded;
+};
+
 
 // 函数声明
 void tex_init(TextureManager* tm);
 void tex_load_all(TextureManager* tm);
 IMAGE* tex_get(TextureManager* tm, TextureID id);
 void tex_cleanup(TextureManager* tm);
+void CreatePlaceholderTexture(IMAGE* img, int texId);
+
+extern TextureManager g_textures;

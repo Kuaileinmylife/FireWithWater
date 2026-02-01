@@ -15,6 +15,11 @@ typedef struct {
     float x, y, width, height;
 } Rect;
 
+typedef enum {
+    DIR_LEFT = -1,
+    DIR_RIGHT = 1
+} Direction;    // 朝向的定义
+
 // ========== 枚举定义 ==========
 typedef enum {
     PLAYER_FIRE = 0,    // 火人
@@ -53,6 +58,7 @@ typedef struct {
     bool isOnGround;     // 是否在地面
     bool isAlive;        // 是否活着
     bool isJumping;      // 是否在跳跃
+    Direction facing;    // 朝向
 } Player;
 
 // 关卡属性
@@ -67,15 +73,17 @@ typedef struct {
     int trapCount;                // 陷阱数量
 } Level;
 
-// 游戏主结构
-typedef struct {
-    GameState state;              // 当前状态
-    Player firePlayer;            // 火人
-    Player waterPlayer;           // 水人
-    Level currentLevel;           // 当前关卡编号
-    int currentLevelNum;          // 关卡编号
-    bool isRunning;               // 游戏是否运行
-} Game;
+//// 游戏主结构
+//typedef struct {
+//    GameState state;              // 当前状态
+//    Player firePlayer;            // 火人
+//    Player waterPlayer;           // 水人
+//    Level currentLevel;           // 当前关卡编号
+//    int currentLevelNum;          // 关卡编号
+//    bool isRunning;               // 游戏是否运行
+//    int menuSelection;            // 添加菜单选择(0-3)
+//    int pauseSelection;           // 添加暂停选择(0-1)
+//} Game;
 
 // ========== 游戏常量 ==========
 
@@ -111,5 +119,3 @@ typedef struct {
 #define COLOR_TRAP_SPIKE RGB(100, 100, 100)  // 尖刺灰色
 #define COLOR_DOOR      RGB(50, 200, 50)     // 门绿色
 #define COLOR_BG        RGB(200, 230, 255)   // 背景天蓝色
-
-//extern TextureManager g_textures;  // 全局贴图管理器

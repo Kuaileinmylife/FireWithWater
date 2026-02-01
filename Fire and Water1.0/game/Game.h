@@ -1,6 +1,17 @@
 #pragma once
 #include "../common.h"
 
+typedef struct Game {
+    GameState state;              // 当前状态
+    Player firePlayer;            // 火人
+    Player waterPlayer;           // 水人
+    Level currentLevel;           // 当前关卡
+    int currentLevelNum;          // 关卡编号
+    bool isRunning;               // 游戏是否运行
+    int menuSelection;            // 菜单选择(0-3)
+    int pauseSelection;           // 暂停选择(0-1)
+} Game;
+
 // 游戏函数声明
 
 // 游戏初始化

@@ -1,42 +1,72 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "ui.h"
 #include "../common.h"
 #include "../graphics/render.h"
+#include "../graphics/texture.h"
+#include "../game/Game.h"
+#include "../game/Player.h"
+#include "../game/Level.h"
+#include <stdio.h>
+#include <string>
 
 // 绘制主菜单
-void ui_draw_menu(int selection) {
-    //render_clear();//调用 清屏 函数
-    render_rect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, COLOR_BG);//调用 绘制矩形 函数
-    const char* menu[4] = { "开始游戏","游戏设置","游戏介绍","团队介绍" };//游戏菜单选项
+void ui_draw_game(Game* game, TextureManager* tm) {
+    if (!game) return;
 
-    const char* menuTitle = "冰火人";
-    int titleX = WINDOW_WIDTH / 2 - 100;//标题的x坐标：向左偏移40，实现水平居中
-    int titleY = WINDOW_HEIGHT / 2 - 150;//标题的y坐标：向上偏移150，实现水平居中
-    render_text(titleX, titleY, menuTitle, COLOR_FIRE);//调用 绘制文字 函数，颜色暂时用火人红色
+    // 1. 绘制背景
+    render_rect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, COLOR_BG);
 
-    int menuStarty = WINDOW_HEIGHT / 2 - 50;//第一个选项的起始Y坐标
-    int menuItemGmp = 60;//选项之间的Y轴间距
-    for (int i = 0; i < 4; i++)
-    {
-        int munuX = WINDOW_WIDTH / 2 - 40;//每个选项的x坐标：向左偏移40，实现水平居中
-        int munuY = menuStarty + i * menuItemGmp;//每个选项的y坐标
-        int textColor;//定义颜色变量
-        if (selection == i) // 条件判断：选中项设为黄色，未选中设为白色
-        {
-            textColor = RGB(255, 255, 0);
-        }
-        else
-        {
-            textColor = RGB(255, 255, 255);
-        }
-        render_text(munuX, munuY, *(menu + i), textColor);//再次调用 绘制矩形 函数
+    // 2. 绘制当前关卡
+    level_draw(&game->currentLevel, tm);
+
+    // 3. 绘制玩家
+    player_draw(&game->firePlayer, tm);
+    player_draw(&game->waterPlayer, tm);
+
+    // 添加调试信息 - 显示玩家位置
+    char debugText[128];
+    sprintf(debugText, "火人: (%.0f, %.0f)", game->firePlayer.position.x, game->firePlayer.position.y);
+    render_text(10, 50, debugText, COLOR_FIRE);
+
+    sprintf(debugText, "水人: (%.0f, %.0f)", game->waterPlayer.position.x, game->waterPlayer.position.y);
+    render_text(10, 80, debugText, COLOR_WATER);
+
+    // 4. 绘制UI信息（关卡数等）
+    char levelText[32];
+    sprintf(levelText, "关卡: %d", game->currentLevelNum);
+    render_text(10, 10, levelText, RGB(255, 255, 255));
+
+    // 5. 如果是第一关，显示操作提示
+    if (game->currentLevelNum == 1) {
+        render_text(500, 10, "火人: W A D", COLOR_FIRE);
+        render_text(500, 40, "水人: ↑ ← →", COLOR_WATER);
     }
-
-    render_present();//调用 批量绘图 函数
 }
 
 // 绘制游戏界面
-void ui_draw_game(const Player* fire, const Player* water, int levelNum) {
-   
+void ui_draw_game(Game* game, TextureManager* tm) {
+    if (!game) return;
+
+    // 1. 绘制背景
+    render_rect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, COLOR_BG);
+
+    // 2. 绘制当前关卡
+    level_draw(&game->currentLevel,tm);
+
+    // 3. 绘制玩家
+    player_draw(&game->firePlayer, tm);
+    player_draw(&game->waterPlayer, tm);
+
+    // 4. 绘制UI信息（关卡数等）
+    char levelText[32];
+    sprintf(levelText, "关卡: %d", game->currentLevelNum);
+    render_text(10, 10, levelText, RGB(255, 255, 255));
+
+    // 5. 如果是第一关，显示操作提示
+    if (game->currentLevelNum == 1) {
+        render_text(500, 10, "火人: W A D", COLOR_FIRE);
+        render_text(500, 40, "水人: ↑ ← →", COLOR_WATER);
+    }
 }
 
 // 绘制暂停界面
@@ -46,27 +76,28 @@ void ui_draw_pause() {
 
 // 绘制胜利界面
 void ui_draw_win(int levelNum) {
-    // TODO: 绘制胜利画面
-    setbkcolor(WHITE);
-    cleardevice();
-    settextstyle(48, 0, _T("微软雅黑"));
-    settextcolor(BROWN);
-    outtextxy(320, 200, "YOU WIN");
-    outtextxy(300, 250, "你已经通过了");
-    outtextxy(280, 450, "按 Enter 进入下一关");
-    outtextxy(290, 500, "按 Esc 返回菜单");
+    render_clear();
+    render_rect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, WHITE);
+
+    char winText[128];
+    sprintf(winText, "YOU WIN! 关卡 %d 通过", levelNum);
+    render_text(320, 200, winText, BROWN);
+    render_text(300, 250, "恭喜你通关！", BROWN);
+    render_text(280, 450, "按 Enter 进入下一关", BLACK);
+    render_text(290, 500, "按 Esc 返回菜单", BLACK);
+
+    render_present();
 }
 
 // 绘制失败界面
 void ui_draw_lose() {
-    // TODO: 绘制失败画面
-    setbkcolor(RED);
-    cleardevice();
-    settextstyle(48, 0, _T("微软雅黑"));
-    settextcolor(BLACK);
-    outtextxy(320, 200, "YOU LOSE");
-    outtextxy(340, 250, "你失败了");
-    outtextxy(350, 300, "");
-    outtextxy(280, 450, "按 Enter 重新开始");
-    outtextxy(290, 500, "按 Esc 返回菜单");
+    render_clear();
+    render_rect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, RED);
+
+    render_text(320, 200, "YOU LOSE", BLACK);
+    render_text(340, 250, "你失败了", BLACK);
+    render_text(280, 450, "按 Enter 重新开始", WHITE);
+    render_text(290, 500, "按 Esc 返回菜单", WHITE);
+
+    render_present();
 }
