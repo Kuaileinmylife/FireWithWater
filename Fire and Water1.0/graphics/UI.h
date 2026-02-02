@@ -27,7 +27,7 @@ void ui_draw_game(Game* game, TextureManager* tm);
 // 功能：游戏暂停时显示的界面
 // 1：如果可以就设计半透明的背景来做暂停的界面，界面的内容与设置界面的内容一致，多个继续游戏
 // 2：注意要显示暂停这个大标题
-void ui_draw_pause();
+void ui_draw_pause(int selection);
 
 // 绘制胜利界面
 //负责人：阿超1

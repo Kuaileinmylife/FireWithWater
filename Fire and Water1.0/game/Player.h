@@ -43,7 +43,7 @@ void player_jump(Player* p);
 // 功能；把玩家画在窗口上
 // 1；根据玩家的类型选颜色(定义int color，仔细看定义)
 // 2；调用render_rect绘制玩家矩形
-void player_draw(const Player* p, TextureManager* tm);
+void player_draw(Player* p, TextureManager* tm);
 
 // 负责人；奶黄包3
 // 功能；根据玩家的类型判断是否会受伤(仔细看定义)

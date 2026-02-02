@@ -1,4 +1,3 @@
-//所有游戏相关的定义都在这里
 #pragma once
 #include <easyx.h>
 #include <graphics.h>
@@ -17,7 +16,8 @@ typedef struct {
 
 typedef enum {
     DIR_LEFT = -1,
-    DIR_RIGHT = 1
+    DIR_RIGHT = 1,
+    DIR_STAND=0
 } Direction;    // 朝向的定义
 
 // ========== 枚举定义 ==========
@@ -71,6 +71,7 @@ typedef struct {
     TrapType traps[10];           // 陷阱类型
     Rect trapRects[10];           // 陷阱位置
     int trapCount;                // 陷阱数量
+    int currentMap;               // 当前地图编号
 } Level;
 
 //// 游戏主结构
@@ -97,7 +98,7 @@ typedef struct {
 #define PLAYER_HEIGHT  60       // 玩家矩形的高
 #define PLAYER_SPEED   5.0f     // 玩家的速度
 #define JUMP_FORCE    -12.0f    // 起跳的速度
-#define GRAVITY        0.6f     // 重力
+#define GRAVITY        1.0f     // 重力
 
 // 按键定义(别忘了还有小写实现)
 #define KEY_FIRE_UP    'W'
@@ -107,7 +108,7 @@ typedef struct {
 #define KEY_WATER_LEFT  VK_LEFT     // 水娃的左移
 #define KEY_WATER_RIGHT VK_RIGHT    // 水娃的右移
 #define KEY_PAUSE       VK_ESCAPE   // 设置界面的按键
-#define KEY_SELECT      VK_RETURN   // 
+#define KEY_SELECT      VK_RETURN   // 回车键
 
 // 颜色定义 (具体的根据实际情况来设)
 #define COLOR_FIRE      RGB(255, 100, 100)   // 火人红色

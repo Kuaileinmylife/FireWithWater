@@ -4,6 +4,7 @@
 #include "../graphics/render.h"
 #include <math.h>
 #include <stdio.h>
+#include <graphics.h>
 
 // 初始化玩家
 void player_init(Player* p, PlayerType type, float x, float y) {
@@ -13,7 +14,7 @@ void player_init(Player* p, PlayerType type, float x, float y) {
     p->isAlive = true;
     p->isOnGround = false;
     p->isJumping = false;
-    p->facing = DIR_RIGHT;
+    p->facing = DIR_STAND;
     p->position.x = x;
     p->position.y = y;
     p->velocity.x = 0;
@@ -28,6 +29,7 @@ void player_init(Player* p, PlayerType type, float x, float y) {
 void player_update(Player* p) {
     if (!p || !p->isAlive) return;
 
+
     // 应用重力
     p->velocity.y += GRAVITY;
 
@@ -37,7 +39,10 @@ void player_update(Player* p) {
     }
 
     // 更新位置
-    p->position.x += p->velocity.x;
+    if (p->facing != DIR_STAND) {
+        p->position.x += p->velocity.x;
+        //p->facing = DIR_STAND;              // 这里有点问题
+    }
     p->position.y += p->velocity.y;
 
     // 更新碰撞框
@@ -97,71 +102,48 @@ void player_jump(Player* p) {
 }
 
 // 绘制玩家
-void player_draw(const Player* p, TextureManager* tm) {
+void player_draw(Player* p, TextureManager* tm) {
     if (!p || !p->isAlive) return;
-
-    // 根据玩家类型和状态选择贴图
-    TextureID texID;
-    IMAGE* img = NULL;
-
+    IMAGE I;
     if (p->type == PLAYER_FIRE) {
+        if (!p->isJumping && p->facing==DIR_STAND) {
+            loadimage(&I, "firejump1.png", 20, 20);
+            putimage(p->position.x, p->position.y, &I);
+        }
+        if (p->facing == DIR_RIGHT) {
+            loadimage(&I, "firerunback2.png", 20, 20);
+            putimage(p->position.x, p->position.y, &I);
+            p->facing = DIR_STAND;
+        }
+        if (p->facing == DIR_LEFT) {
+            loadimage(&I, "firerunback2.png", 20, 20);
+            putimage(p->position.x, p->position.y, &I);
+            p->facing = DIR_STAND;
+        }
         if (p->isJumping) {
-            texID = TEX_FIRE_JUMP;  // firejump2.png 483x770
-        }
-        else if (fabs(p->velocity.x) > 0.1f) {
-            static int animFrame = 0;
-            if (++animFrame % 20 < 10) {
-                texID = TEX_FIRE_WALK1;  // firerunback3.png 1190x621
-            }
-            else {
-                texID = TEX_FIRE_WALK2;  // firerunback3.png 1190x621
-            }
-        }
-        else {
-            texID = TEX_FIRE_IDLE;  // firerunback4.png 1200x622
+            loadimage(&I, "firejump2.png", 20, 20);
+            putimage(p->position.x, p->position.y, &I);
         }
     }
     else {
-        // 水人同理
+        if (!p->isJumping && p->facing == DIR_STAND) {
+            loadimage(&I, "icejump1.png", 20, 20);
+            putimage(p->position.x, p->position.y, &I);
+        }
+        if (p->facing == DIR_RIGHT) {
+            loadimage(&I, "icerunback4.png", 20, 20);
+            putimage(p->position.x, p->position.y, &I);
+            p->facing = DIR_STAND;
+        }
+        if (p->facing == DIR_LEFT) {
+            loadimage(&I, "icerunback4.png", 20, 20);
+            putimage(p->position.x, p->position.y, &I);
+            p->facing = DIR_STAND;
+        }
         if (p->isJumping) {
-            texID = TEX_WATER_JUMP;  // icejump3.png 369x767
+            loadimage(&I, "icejump2.png", 20, 20);
+            putimage(p->position.x, p->position.y, &I);
         }
-        else if (fabs(p->velocity.x) > 0.1f) {
-            static int animFrame = 0;
-            if (++animFrame % 20 < 10) {
-                texID = TEX_WATER_WALK1;  // icerunback4.png 1203x625
-            }
-            else {
-                texID = TEX_WATER_WALK2;  // icerunback4.png 1203x625
-            }
-        }
-        else {
-            texID = TEX_WATER_IDLE;  // icerunback5.png 1196x623
-        }
-    }
-
-    // 获取贴图
-    img = tex_get(tm, texID);
-    if (img) {
-        int texWidth = img->getwidth();
-        int texHeight = img->getheight();
-
-        // 计算缩放比例，保持宽高比
-        float scale = 0.1f;  // 缩放10%
-        int drawWidth = (int)(texWidth * scale);
-        int drawHeight = (int)(texHeight * scale);
-
-        printf("DEBUG: 缩放贴图 %dx%d -> %dx%d\n",
-            texWidth, texHeight, drawWidth, drawHeight);
-
-        render_texture((int)p->position.x, (int)p->position.y,
-            drawWidth, drawHeight, img);
-    }
-    else {
-        // 纯色矩形
-        int color = (p->type == PLAYER_FIRE) ? COLOR_FIRE : COLOR_WATER;
-        render_rect((int)p->position.x, (int)p->position.y,
-            PLAYER_WIDTH, PLAYER_HEIGHT, color);
     }
 }
 

@@ -20,9 +20,6 @@ void input_update(InputState* input) {
     input->keyEsc = (GetAsyncKeyState(VK_ESCAPE) & 0x8000);
     input->keyEnter = (GetAsyncKeyState(VK_RETURN) & 0x8000);
 
-    // TODO: 检测键盘状态并更新input结构体
-    // input->keyW = (GetAsyncKeyState('W') & 0x8000) != 0;
-    // 其他按键同理
 }
 
 // 检查指定按键是否按下

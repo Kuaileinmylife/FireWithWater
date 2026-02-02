@@ -6,7 +6,7 @@ typedef struct Game {
     Player firePlayer;            // 火人
     Player waterPlayer;           // 水人
     Level currentLevel;           // 当前关卡
-    int currentLevelNum;          // 关卡编号
+    int currentLevelNum;          // 关卡编号(0-2)先三关
     bool isRunning;               // 游戏是否运行
     int menuSelection;            // 菜单选择(0-3)
     int pauseSelection;           // 暂停选择(0-1)

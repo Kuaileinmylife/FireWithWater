@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS
+ï»¿#define _CRT_SECURE_NO_WARNINGS
 #include "texture.h"
 #include <stdio.h>
 #include <string>
@@ -6,125 +6,123 @@
 
 TextureManager g_textures;
 
-const char* TEXTURE_PATHS[TEX_COUNT] = {
-    // Íæ¼ÒÌùÍ¼
-    "firerunback4.png",        // »ğÈËÕ¾Á¢
-    "firerunback3.png",        // »ğÈËĞĞ×ß1
-    "firerunback3.png",        // »ğÈËĞĞ×ß2
-    "firejump3.png",           // »ğÈËÌøÔ¾
+//const char* TEXTURE_PATHS[TEX_COUNT] = {
+//    // ç©å®¶è´´å›¾
+//    "firerunback4.png",        // ç«äººç«™ç«‹
+//    "firerunback3.png",        // ç«äººè¡Œèµ°1
+//    "firerunback3.png",        // ç«äººè¡Œèµ°2
+//    "firejump3.png",           // ç«äººè·³è·ƒ
+//
+//    "icerunback5.png",         // æ°´äººç«™ç«‹
+//    "icerunback4.png",         // æ°´äººè¡Œèµ°1
+//    "icerunback4.png",         // æ°´äººè¡Œèµ°2
+//    "icejump3.png",            // æ°´äººè·³è·ƒ
+//
+//    // åœ°å›¾è´´å›¾
+//    "groud2.png",              // å¢™å£
+//    "groud1.png",              // åœ°æ¿
+//    "groud1.png",              // å¹³å°
+//    "mainmenu.png",            // èƒŒæ™¯
+//
+//    // é™·é˜±è´´å›¾
+//    "groud4.png",              // ç«é™·é˜±
+//    "groud5.png",              // æ°´é™·é˜±
+//    "exit1.png",               // å°–åˆº
+//
+//    // é—¨è´´å›¾
+//    "exit1.png",               // é—¨å…³é—­
+//    "exit1.png",               // é—¨æ‰“å¼€
+//};
 
-    "icerunback5.png",         // Ë®ÈËÕ¾Á¢
-    "icerunback4.png",         // Ë®ÈËĞĞ×ß1
-    "icerunback4.png",         // Ë®ÈËĞĞ×ß2
-    "icejump3.png",            // Ë®ÈËÌøÔ¾
-
-    // µØÍ¼ÌùÍ¼
-    "groud2.png",              // Ç½±Ú
-    "groud1.png",              // µØ°å
-    "groud1.png",              // Æ½Ì¨
-    "mainmenu.png",            // ±³¾°
-
-    // ÏİÚåÌùÍ¼
-    "groud4.png",              // »ğÏİÚå
-    "groud5.png",              // Ë®ÏİÚå
-    "exit1.png",               // ¼â´Ì
-
-    // ÃÅÌùÍ¼
-    "exit1.png",               // ÃÅ¹Ø±Õ
-    "exit1.png",               // ÃÅ´ò¿ª
-};
-
-// ´´½¨Ìæ´úÌùÍ¼µÄº¯Êı¶¨Òå
-void CreatePlaceholderTexture(IMAGE* img, int texId) {
-    if (!img) return;
-
-    img->Resize(100, 100);
-
-    // ÉèÖÃ¹¤×÷Í¼ÏñÎªµ±Ç°ÌùÍ¼
-    SetWorkingImage(img);
-
-    // ¸ù¾İÌùÍ¼IDÉèÖÃ²»Í¬ÑÕÉ«
-    COLORREF color;
-    const char* label;
-
-    // ¸ù¾İÌùÍ¼ÀàĞÍÉèÖÃÑÕÉ«
-    if (texId >= TEX_FIRE_IDLE && texId <= TEX_FIRE_JUMP) {
-        color = RGB(255, 100, 100); // ºìÉ« - »ğÈË
-        label = "FIRE";
-    }
-    else if (texId >= TEX_WATER_IDLE && texId <= TEX_WATER_JUMP) {
-        color = RGB(100, 100, 255); // À¶É« - Ë®ÈË
-        label = "WATER";
-    }
-    else if (texId == TEX_BACKGROUND) {
-        color = RGB(200, 230, 255); // ÌìÀ¶ - ±³¾°
-        label = "BG";
-    }
-    else if (texId == TEX_WALL) {
-        color = RGB(100, 70, 30); // ×ØÉ« - Ç½±Ú
-        label = "WALL";
-    }
-    else if (texId == TEX_FLOOR || texId == TEX_PLATFORM) {
-        color = RGB(150, 120, 80); // Ç³×Ø - µØ°å/Æ½Ì¨
-        label = "FLOOR";
-    }
-    else if (texId == TEX_TRAP_FIRE) {
-        color = RGB(255, 150, 50); // ³ÈÉ« - »ğÏİÚå
-        label = "TRAP-F";
-    }
-    else if (texId == TEX_TRAP_WATER) {
-        color = RGB(50, 150, 255); // À¶É« - Ë®ÏİÚå
-        label = "TRAP-W";
-    }
-    else if (texId == TEX_DOOR_CLOSE || texId == TEX_DOOR_OPEN) {
-        color = RGB(50, 200, 50); // ÂÌÉ« - ÃÅ
-        label = "DOOR";
-    }
-    else {
-        color = RGB(100, 100, 100); // »ÒÉ« - Ä¬ÈÏ
-        label = "TEX";
-    }
-
-    // Ìî³äÑÕÉ«
-    setfillcolor(color);
-    solidrectangle(0, 0, 50, 50);
-
-    // Ìí¼ÓÎÄ×Ö±êÊ¶
-    settextcolor(RGB(255, 255, 255));
-    setbkmode(TRANSPARENT);
-    settextstyle(10, 0, "Arial");
-    char text[20];
-    sprintf(text, "%s%d", label, texId);
-    outtextxy(5, 20, text);
-
-    // »Ö¸´Ä¬ÈÏ¹¤×÷Í¼Ïñ
-    SetWorkingImage(NULL);
-}
+//// åˆ›å»ºæ›¿ä»£è´´å›¾çš„å‡½æ•°å®šä¹‰
+//void CreatePlaceholderTexture(IMAGE* img, int texId) {
+//    if (!img) return;
+//
+//    img->Resize(100, 100);
+//
+//    // è®¾ç½®å·¥ä½œå›¾åƒä¸ºå½“å‰è´´å›¾
+//    SetWorkingImage(img);
+//
+//    // æ ¹æ®è´´å›¾IDè®¾ç½®ä¸åŒé¢œè‰²
+//    COLORREF color;
+//    const char* label;
+//
+//    // æ ¹æ®è´´å›¾ç±»å‹è®¾ç½®é¢œè‰²
+//    if (texId >= TEX_FIRE_IDLE && texId <= TEX_FIRE_JUMP) {
+//        color = RGB(255, 100, 100); // çº¢è‰² - ç«äºº
+//        label = "FIRE";
+//    }
+//    else if (texId >= TEX_WATER_IDLE && texId <= TEX_WATER_JUMP) {
+//        color = RGB(100, 100, 255); // è“è‰² - æ°´äºº
+//        label = "WATER";
+//    }
+//    else if (texId == TEX_BACKGROUND) {
+//        color = RGB(200, 230, 255); // å¤©è“ - èƒŒæ™¯
+//        label = "BG";
+//    }
+//    else if (texId == TEX_WALL) {
+//        color = RGB(100, 70, 30); // æ£•è‰² - å¢™å£
+//        label = "WALL";
+//    }
+//    else if (texId == TEX_FLOOR || texId == TEX_PLATFORM) {
+//        color = RGB(150, 120, 80); // æµ…æ£• - åœ°æ¿/å¹³å°
+//        label = "FLOOR";
+//    }
+//    else if (texId == TEX_TRAP_FIRE) {
+//        color = RGB(255, 150, 50); // æ©™è‰² - ç«é™·é˜±
+//        label = "TRAP-F";
+//    }
+//    else if (texId == TEX_TRAP_WATER) {
+//        color = RGB(50, 150, 255); // è“è‰² - æ°´é™·é˜±
+//        label = "TRAP-W";
+//    }
+//    else if (texId == TEX_DOOR_CLOSE || texId == TEX_DOOR_OPEN) {
+//        color = RGB(50, 200, 50); // ç»¿è‰² - é—¨
+//        label = "DOOR";
+//    }
+//    else {
+//        color = RGB(100, 100, 100); // ç°è‰² - é»˜è®¤
+//        label = "TEX";
+//    }
+//
+//    // å¡«å……é¢œè‰²
+//    setfillcolor(color);
+//    solidrectangle(0, 0, 50, 50);
+//
+//    // æ·»åŠ æ–‡å­—æ ‡è¯†
+//    settextcolor(RGB(255, 255, 255));
+//    setbkmode(TRANSPARENT);
+//    settextstyle(10, 0, "Arial");
+//    char text[20];
+//    sprintf(text, "%s%d", label, texId);
+//    outtextxy(5, 20, text);
+//
+//    // æ¢å¤é»˜è®¤å·¥ä½œå›¾åƒ
+//    SetWorkingImage(NULL);
+//}
 
 void tex_init(TextureManager* tm) {
     if (!tm) return;
 
     tm->loaded = false;
-    // ²»ĞèÒªmemset£¬Resize»á³õÊ¼»¯
+    // ä¸éœ€è¦memsetï¼ŒResizeä¼šåˆå§‹åŒ–
 }
 
-// ÔÚ tex_load_all º¯ÊıÖĞ£¬ĞŞ¸Ä¼ÓÔØ²¿·Ö£º
+// åœ¨ tex_load_all å‡½æ•°ä¸­ï¼Œä¿®æ”¹åŠ è½½éƒ¨åˆ†ï¼š
 void tex_load_all(TextureManager* tm) {
     if (!tm || tm->loaded) return;
 
-    printf("===== ¼ÓÔØÕæÊµÌùÍ¼ÎÄ¼ş =====\n");
-
     const char* realFilenames[TEX_COUNT] = {
-        // È·±£ÕâĞ©ÎÄ¼ş´æÔÚ
-        "firerunback4.png",    // TEX_FIRE_IDLE (0)
-        "firerunback3.png",    // TEX_FIRE_WALK1 (1)
-        "firerunback3.png",    // TEX_FIRE_WALK2 (2)
-        "firejump5.png",       // TEX_FIRE_JUMP (3) - Ê¹ÓÃÊµ¼Ê´æÔÚµÄÎÄ¼ş
+        // ç¡®ä¿è¿™äº›æ–‡ä»¶å­˜åœ¨
+        "firerunback1.png",    // TEX_FIRE_IDLE (0)
+        "firerunback2.png",    // TEX_FIRE_WALK1 (1)
+        "firerunback2.png",    // TEX_FIRE_WALK2 (2)
+        "firejump2.png",       // TEX_FIRE_JUMP (3) - ä½¿ç”¨å®é™…å­˜åœ¨çš„æ–‡ä»¶
 
-        "icerunback5.png",     // TEX_WATER_IDLE (4)
+        "icerunback1.png",     // TEX_WATER_IDLE (4)
         "icerunback4.png",     // TEX_WATER_WALK1 (5)
         "icerunback4.png",     // TEX_WATER_WALK2 (6)
-        "icejump5.png",        // TEX_WATER_JUMP (7) - Ê¹ÓÃÊµ¼Ê´æÔÚµÄÎÄ¼ş
+        "icejump2.png",        // TEX_WATER_JUMP (7) - ä½¿ç”¨å®é™…å­˜åœ¨çš„æ–‡ä»¶
 
         "groud2.png",          // TEX_WALL (8)
         "groud1.png",          // TEX_FLOOR (9)
@@ -143,82 +141,55 @@ void tex_load_all(TextureManager* tm) {
     for (int i = 0; i < TEX_COUNT; i++) {
         const char* filename = realFilenames[i];
 
-        // ¼ì²éÎÄ¼şÊÇ·ñ´æÔÚ
+        // æ£€æŸ¥æ–‡ä»¶æ˜¯å¦å­˜åœ¨
         WIN32_FIND_DATA findData;
         HANDLE hFind = FindFirstFile(filename, &findData);
 
-        if (hFind == INVALID_HANDLE_VALUE) {
-            printf("ÎÄ¼ş²»´æÔÚ! ´´½¨Ìæ´úÌùÍ¼\n");
-            CreatePlaceholderTexture(&tm->images[i], i);
-            continue;
-        }
-        FindClose(hFind);
+        
+        // åŠ è½½å›¾ç‰‡
+        tm->images[i].Resize(1, 1); // åˆå§‹åŒ–
 
-        // ¼ÓÔØÍ¼Æ¬
-        tm->images[i].Resize(1, 1); // ³õÊ¼»¯
+        loadimage(&tm->images[i], filename);
+        int result = 0;
 
-        int result = loadimage(&tm->images[i], filename);
-        if (result == 0) {  // EasyXÖĞ£¬0±íÊ¾³É¹¦
-            int width = tm->images[i].getwidth();
-            int height = tm->images[i].getheight();
 
-            if (width > 0 && height > 0) {
-                printf("³É¹¦! %dx%d\n", width, height);
-                successCount++;
-
-                // ¼ì²éÊÇ·ñÊÇ±ù»ğÈËÌùÍ¼
-                if (i >= 0 && i <= 7) {
-                    printf("  Íæ¼ÒÌùÍ¼³ß´ç: %dx%d\n", width, height);
-                }
-            }
-            else {
-                printf("¼ÓÔØºó³ß´çÎª0! Ê¹ÓÃÌæ´úÌùÍ¼\n");
-                CreatePlaceholderTexture(&tm->images[i], i);
-            }
-        }
-        else {
-            printf("loadimage·µ»Ø%d! Ê¹ÓÃÌæ´úÌùÍ¼\n", result);
-            CreatePlaceholderTexture(&tm->images[i], i);
-        }
-    }
-
-    tm->loaded = true;
-    printf("===== ¼ÓÔØÍê³É: %d/%d ³É¹¦ =====\n\n", successCount, TEX_COUNT);
-}
-
-// ÔÚTexture.cppÖĞÌí¼ÓÕâ¸ö¸¨Öúº¯Êı
-const char* get_texture_name(int id) {
-    switch (id) {
-    case 0: return "»ğÈËÕ¾Á¢";
-    case 1: return "»ğÈËĞĞ×ß1";
-    case 2: return "»ğÈËĞĞ×ß2";
-    case 3: return "»ğÈËÌøÔ¾";
-    case 4: return "Ë®ÈËÕ¾Á¢";
-    case 5: return "Ë®ÈËĞĞ×ß1";
-    case 6: return "Ë®ÈËĞĞ×ß2";
-    case 7: return "Ë®ÈËÌøÔ¾";
-    case 8: return "Ç½±Ú";
-    case 9: return "µØ°å";
-    case 10: return "Æ½Ì¨";
-    case 11: return "±³¾°";
-    case 12: return "»ğÏİÚå";
-    case 13: return "Ë®ÏİÚå";
-    case 14: return "¼â´Ì";
-    case 15: return "¹ØÃÅ";
-    case 16: return "¿ªÃÅ";
-    default: return "Î´Öª";
+        tm->loaded = true;
     }
 }
-// »ñÈ¡ÌùÍ¼
-IMAGE* tex_get(TextureManager* tm, TextureID id) {
-    if (!tm || id < 0 || id >= TEX_COUNT) {
-        return NULL;
-    }
-    return &tm->images[id];
-}
 
-// ÇåÀíÌùÍ¼×ÊÔ´
-void tex_cleanup(TextureManager* tm) {
-    if (!tm) return;
-    tm->loaded = false;
-}
+//// åœ¨Texture.cppä¸­æ·»åŠ è¿™ä¸ªè¾…åŠ©å‡½æ•°
+//const char* get_texture_name(int id) {
+//    switch (id) {
+//    case 0: return "ç«äººç«™ç«‹";
+//    case 1: return "ç«äººè¡Œèµ°1";
+//    case 2: return "ç«äººè¡Œèµ°2";
+//    case 3: return "ç«äººè·³è·ƒ";
+//    case 4: return "æ°´äººç«™ç«‹";
+//    case 5: return "æ°´äººè¡Œèµ°1";
+//    case 6: return "æ°´äººè¡Œèµ°2";
+//    case 7: return "æ°´äººè·³è·ƒ";
+//    case 8: return "å¢™å£";
+//    case 9: return "åœ°æ¿";
+//    case 10: return "å¹³å°";
+//    case 11: return "èƒŒæ™¯";
+//    case 12: return "ç«é™·é˜±";
+//    case 13: return "æ°´é™·é˜±";
+//    case 14: return "å°–åˆº";
+//    case 15: return "å…³é—¨";
+//    case 16: return "å¼€é—¨";
+//    default: return "æœªçŸ¥";
+//    }
+//}
+//// è·å–è´´å›¾
+//IMAGE* tex_get(TextureManager* tm, TextureID id) {
+//    if (!tm || id < 0 || id >= TEX_COUNT) {
+//        return NULL;
+//    }
+//    return &tm->images[id];
+//}
+//
+//// æ¸…ç†è´´å›¾èµ„æº
+//void tex_cleanup(TextureManager* tm) {
+//    if (!tm) return;
+//    tm->loaded = false;
+//}

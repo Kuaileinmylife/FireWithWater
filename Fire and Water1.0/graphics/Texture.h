@@ -14,6 +14,9 @@ typedef enum {
     TEX_WATER_JUMP,
 
     // µØÍ¼ÌùÍ¼
+    TEX_MAP1,
+    TEX_MAP2,
+    TEX_MAP3,
     TEX_WALL,
     TEX_FLOOR,
     TEX_PLATFORM,

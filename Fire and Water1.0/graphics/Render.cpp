@@ -38,6 +38,7 @@ void render_rect(int x, int y, int w, int h, int color) {
     // TODO: 绘制指定颜色的矩形
      setfillcolor(color);
      fillrectangle(x, y, x + w, y + h);
+
 }
 
 // 绘制文字

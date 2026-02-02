@@ -10,6 +10,7 @@ void level_init(Level* level, int levelNum) {
     level->width = 20;
     level->height = 15;
     level->trapCount = 0;
+    level->currentMap = 0;
 
     // 初始化所有格子为空地
     for (int y = 0; y < level->height; y++) {
@@ -19,7 +20,7 @@ void level_init(Level* level, int levelNum) {
     }
 
     // 创建简单的地图 - 第一关
-    if (levelNum == 1) {
+    if (level->currentMap == 0) {
         // 底部墙壁
         for (int x = 0; x < level->width; x++) {
             level->tiles[14][x] = TILE_WALL;
@@ -47,42 +48,58 @@ void level_init(Level* level, int levelNum) {
 // 绘制关卡
 void level_draw(const Level* level, TextureManager* tm) {
     if (!level) return;
+    IMAGE p;
+    switch (level->currentMap) {
+    case 0:
+        loadimage(&p, "map1.png", WINDOW_WIDTH, WINDOW_HEIGHT);
+        putimage(0, 0, &p);
+        break;
+    case 1:
 
-    // 暂时先用纯色矩形绘制地图
-    const int TILE_SIZE = 40; // 每个格子的像素大小
+        break;
+    case 2:
 
-    for (int y = 0; y < level->height; y++) {
-        for (int x = 0; x < level->width; x++) {
-            int screenX = x * TILE_SIZE;
-            int screenY = y * TILE_SIZE;
-
-            switch (level->tiles[y][x]) {
-            case TILE_WALL:
-                render_rect(screenX, screenY, TILE_SIZE, TILE_SIZE, COLOR_WALL);
-                break;
-            case TILE_PLATFORM:
-                render_rect(screenX, screenY, TILE_SIZE, TILE_SIZE, COLOR_PLATFORM);
-                break;
-            default:
-                // 空地不绘制
-                break;
-            }
-        }
+        break;
     }
-    // 绘制门
-    if (tm) {
-        IMAGE* doorImg = tex_get(tm, TEX_DOOR_CLOSE);
-        if (doorImg) {
-            render_texture(level->doorPosition.x, level->doorPosition.y,
-                level->doorPosition.width, level->doorPosition.height,
-                doorImg);
-        }
-        else {
-            render_rect(level->doorPosition.x, level->doorPosition.y,
-                level->doorPosition.width, level->doorPosition.height,
-                COLOR_DOOR);
-        }
-    }
+
+
+
+    //
+    //// 暂时先用纯色矩形绘制地图
+    //const int TILE_SIZE = 16; // 每个格子的像素大小
+
+    //for (int y = 0; y < level->height; y++) {
+    //    for (int x = 0; x < level->width; x++) {
+    //        int screenX = x * TILE_SIZE;
+    //        int screenY = y * TILE_SIZE;
+
+    //        switch (level->tiles[y][x]) {
+    //        case TILE_WALL:
+    //            render_rect(screenX, screenY, TILE_SIZE, TILE_SIZE, COLOR_WALL);
+    //            break;
+    //        case TILE_PLATFORM:
+    //            render_rect(screenX, screenY, TILE_SIZE, TILE_SIZE, COLOR_PLATFORM);
+    //            break;
+    //        default:
+    //            // 空地不绘制
+    //            break;
+    //        }
+    //    }
+    //}
+    //// 绘制门
+    //if (tm) {
+    //    IMAGE* doorImg = tex_get(tm, TEX_DOOR_CLOSE);
+    //    if (doorImg) {
+    //        render_texture(level->doorPosition.x, level->doorPosition.y,
+    //            level->doorPosition.width, level->doorPosition.height,
+    //            doorImg);
+    //    }
+    //    else {
+    //        render_rect(level->doorPosition.x, level->doorPosition.y,
+    //            level->doorPosition.width, level->doorPosition.height,
+    //            COLOR_DOOR);
+    //    }
+    //}
 }
 
 // 检查是否到达门口

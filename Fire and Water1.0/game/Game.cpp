@@ -32,7 +32,7 @@ void game_init(Game* game) {
 
     // 3. 初始化游戏状态
     game->state = STATE_MENU;
-    game->currentLevelNum = 1;
+    game->currentLevelNum = 0;
     game->isRunning = true;
     game->menuSelection = 0;
     game->pauseSelection = 0;
@@ -48,9 +48,9 @@ void game_init(Game* game) {
 // 运行游戏主循环
 void game_run(Game* game) {
     if (!game) return;
-
     // TODO: 游戏主循环
     while (game->isRunning) {
+        BeginBatchDraw();
         game_handle_input(game);
         game_update(game);
         game_draw(game);
@@ -73,7 +73,7 @@ void game_handle_input(Game* game) {
     // 2. 根据当前游戏状态处理不同输入
     switch (game->state) {
     case STATE_MENU:
-        // 菜单状态：W/S选择，回车确认（添加防抖）
+        // 菜单状态：W/S选择，回车确认
         if ((currentTime - g_lastInputTime) > INPUT_COOLDOWN) {
             if (g_input.keyW) {
                 game->menuSelection--;
@@ -91,20 +91,27 @@ void game_handle_input(Game* game) {
             }
         }
 
-        // Enter 键确认（不需要防抖，可以快速确认）
+        // Enter 键确认
         if (g_input.keyEnter) {
             if (game->menuSelection == 0) {
                 game->state = STATE_GAME;  // 开始游戏
             }
-            else if (game->menuSelection == 3) {
+            else if (game->menuSelection == 1) {
                 game->isRunning = false;   // 退出游戏
             }
-            // 其他选项暂时不做处理
+            else if (game->menuSelection == 2) {
+                // 游戏设置
+                game->state = STATE_PAUSE;
+            }
+            else if (game->menuSelection == 3) {
+                // 团队介绍
+            }
         }
         break;
 
     case STATE_GAME:
         // 游戏状态：控制玩家移动
+        
         if (g_input.keyA) player_move(&game->firePlayer, -1);   // 火人左移
         if (g_input.keyD) player_move(&game->firePlayer, 1);    // 火人右移
         if (g_input.keyW) player_jump(&game->firePlayer);       // 火人跳跃
@@ -119,6 +126,24 @@ void game_handle_input(Game* game) {
 
     case STATE_PAUSE:
         // 暂停状态：ESC返回游戏，回车选择菜单项
+
+        if ((currentTime - g_lastInputTime) > INPUT_COOLDOWN) {
+            if (g_input.keyW) {
+                game->pauseSelection--;
+                g_lastInputTime = currentTime;
+                if (game->menuSelection < 0) {
+                    game->menuSelection = 1;  // 循环到最后一个
+                }
+            }
+            if (g_input.keyS) {
+                game->pauseSelection++;
+                g_lastInputTime = currentTime;
+                if (game->menuSelection > 1) {
+                    game->menuSelection = 0;  // 循环到第一个
+                }
+            }
+        }
+
         if (g_input.keyEsc) game->state = STATE_GAME;
         if (g_input.keyEnter) {
             if (game->pauseSelection == 0) {
@@ -178,7 +203,7 @@ void game_draw(Game* game) {
     case STATE_PAUSE:
         render_clear();
         ui_draw_game(game, &g_textures);
-        ui_draw_pause();  // 再画暂停界面（覆盖在上面）
+        ui_draw_pause(game->pauseSelection);  // 再画暂停界面（覆盖在上面）
         break;
 
     case STATE_WIN:

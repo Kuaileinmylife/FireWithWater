@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS
+ï»¿#define _CRT_SECURE_NO_WARNINGS
 #include "ui.h"
 #include "../common.h"
 #include "../graphics/render.h"
@@ -9,95 +9,154 @@
 #include <stdio.h>
 #include <string>
 
-// »æÖÆÖ÷²Ëµ¥
+
+// ç»˜åˆ¶æ¸¸æˆç•Œé¢
 void ui_draw_game(Game* game, TextureManager* tm) {
     if (!game) return;
 
-    // 1. »æÖÆ±³¾°
+    // 1. ç»˜åˆ¶èƒŒæ™¯
     render_rect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, COLOR_BG);
 
-    // 2. »æÖÆµ±Ç°¹Ø¿¨
-    level_draw(&game->currentLevel, tm);
-
-    // 3. »æÖÆÍæ¼Ò
-    player_draw(&game->firePlayer, tm);
-    player_draw(&game->waterPlayer, tm);
-
-    // Ìí¼Óµ÷ÊÔĞÅÏ¢ - ÏÔÊ¾Íæ¼ÒÎ»ÖÃ
-    char debugText[128];
-    sprintf(debugText, "»ğÈË: (%.0f, %.0f)", game->firePlayer.position.x, game->firePlayer.position.y);
-    render_text(10, 50, debugText, COLOR_FIRE);
-
-    sprintf(debugText, "Ë®ÈË: (%.0f, %.0f)", game->waterPlayer.position.x, game->waterPlayer.position.y);
-    render_text(10, 80, debugText, COLOR_WATER);
-
-    // 4. »æÖÆUIĞÅÏ¢£¨¹Ø¿¨ÊıµÈ£©
-    char levelText[32];
-    sprintf(levelText, "¹Ø¿¨: %d", game->currentLevelNum);
-    render_text(10, 10, levelText, RGB(255, 255, 255));
-
-    // 5. Èç¹ûÊÇµÚÒ»¹Ø£¬ÏÔÊ¾²Ù×÷ÌáÊ¾
-    if (game->currentLevelNum == 1) {
-        render_text(500, 10, "»ğÈË: W A D", COLOR_FIRE);
-        render_text(500, 40, "Ë®ÈË: ¡ü ¡û ¡ú", COLOR_WATER);
-    }
-}
-
-// »æÖÆÓÎÏ·½çÃæ
-void ui_draw_game(Game* game, TextureManager* tm) {
-    if (!game) return;
-
-    // 1. »æÖÆ±³¾°
-    render_rect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, COLOR_BG);
-
-    // 2. »æÖÆµ±Ç°¹Ø¿¨
+    // 2. ç»˜åˆ¶å½“å‰å…³å¡
     level_draw(&game->currentLevel,tm);
 
-    // 3. »æÖÆÍæ¼Ò
+    // 5. å¦‚æœæ˜¯ç¬¬ä¸€å…³ï¼Œæ˜¾ç¤ºæ“ä½œæç¤º
+    if (game->currentLevelNum == 0) {
+        render_text(500, 500, "ç«äºº: W A D", COLOR_FIRE);
+        render_text(500, 530, "æ°´äºº: â†‘ â† â†’", COLOR_WATER);
+    }
+
+    // 3. ç»˜åˆ¶ç©å®¶
     player_draw(&game->firePlayer, tm);
     player_draw(&game->waterPlayer, tm);
 
-    // 4. »æÖÆUIĞÅÏ¢£¨¹Ø¿¨ÊıµÈ£©
+
+    // 4. ç»˜åˆ¶UIä¿¡æ¯ï¼ˆå…³å¡æ•°ç­‰ï¼‰
     char levelText[32];
-    sprintf(levelText, "¹Ø¿¨: %d", game->currentLevelNum);
+    sprintf(levelText, "å…³å¡: %d", game->currentLevelNum+1);
     render_text(10, 10, levelText, RGB(255, 255, 255));
+}
 
-    // 5. Èç¹ûÊÇµÚÒ»¹Ø£¬ÏÔÊ¾²Ù×÷ÌáÊ¾
-    if (game->currentLevelNum == 1) {
-        render_text(500, 10, "»ğÈË: W A D", COLOR_FIRE);
-        render_text(500, 40, "Ë®ÈË: ¡ü ¡û ¡ú", COLOR_WATER);
+// ç»˜åˆ¶æš‚åœç•Œé¢
+void ui_draw_pause(int selection) {
+    // TODO: ç»˜åˆ¶æš‚åœèœå•
+    setbkcolor(RGB(100, 100, 150));  // æ·±è“è‰²èƒŒæ™¯
+    setbkmode(TRANSPARENT);
+    cleardevice();
+    IMAGE p;
+    loadimage(&p, "mainmenu.png", WINDOW_WIDTH, WINDOW_HEIGHT);
+    putimage(0, 0, &p);
+    settextstyle(32, 0, _T("å®‹ä½“"));
+
+    if (selection == 0) {
+        settextcolor(YELLOW);  // é€‰ä¸­æ—¶é»„è‰²
+        outtextxy(475, 100, _T("> ç»§ç»­æ¸¸æˆ <"));
     }
+    else {
+        settextcolor(WHITE);   // æœªé€‰ä¸­ç™½è‰²
+        outtextxy(500, 100, _T("ç»§ç»­æ¸¸æˆ"));
+    }
+
+    // é€‰é¡¹2ï¼šé€€å‡ºæ¸¸æˆï¼ˆselection=1è¡¨ç¤ºé€‰ä¸­ï¼‰
+    if (selection == 1) {
+        settextcolor(YELLOW);
+        outtextxy(475, 150, _T("> é€€å›èœå• <"));
+    }
+    else {
+        settextcolor(WHITE);
+        outtextxy(500, 150, _T("é€€å›èœå•"));
+    }
+
+    // 4. ç”»æ“ä½œæç¤º
+    settextstyle(20, 0, _T("å®‹ä½“"));
+    settextcolor(RGB(200, 200, 200));
+    outtextxy(280, 550, _T("W/S: é€‰æ‹©  å›è½¦: ç¡®è®¤"));
 }
 
-// »æÖÆÔİÍ£½çÃæ
-void ui_draw_pause() {
-    // TODO: »æÖÆÔİÍ£²Ëµ¥
+// ç»˜åˆ¶ä¸»èœå•
+void ui_draw_menu(int selection) {
+    // TODO: ç»˜åˆ¶ä¸»èœå•ç•Œé¢
+    // 1. ç”»èƒŒæ™¯ï¼ˆæ¸å˜æˆ–çº¯è‰²ï¼‰
+    setbkcolor(RGB(100, 100, 150));  // æ·±è“è‰²èƒŒæ™¯
+    setbkmode(TRANSPARENT);
+    cleardevice();
+    IMAGE p;
+    loadimage(&p, "mainmenu.png", WINDOW_WIDTH, WINDOW_HEIGHT);
+    putimage(0, 0, &p);
+
+    // 3. ç”»èœå•é€‰é¡¹
+    settextstyle(32, 0, _T("å®‹ä½“"));
+
+    // é€‰é¡¹1ï¼šå¼€å§‹æ¸¸æˆï¼ˆselection=0è¡¨ç¤ºé€‰ä¸­ï¼‰
+    if (selection == 0) {
+        settextcolor(YELLOW);  // é€‰ä¸­æ—¶é»„è‰²
+        outtextxy(475, 100, _T("> å¼€å§‹æ¸¸æˆ <"));
+    }
+    else {
+        settextcolor(WHITE);   // æœªé€‰ä¸­ç™½è‰²
+        outtextxy(500, 100, _T("å¼€å§‹æ¸¸æˆ"));
+    }
+
+    // é€‰é¡¹2ï¼šé€€å‡ºæ¸¸æˆï¼ˆselection=1è¡¨ç¤ºé€‰ä¸­ï¼‰
+    if (selection == 1) {
+        settextcolor(YELLOW);
+        outtextxy(475, 150, _T("> é€€å‡ºæ¸¸æˆ <"));
+    }
+    else {
+        settextcolor(WHITE);
+        outtextxy(500, 150, _T("é€€å‡ºæ¸¸æˆ"));
+    }
+
+    // é€‰é¡¹3ï¼šè®¾ç½®ï¼ˆselection=2è¡¨ç¤ºé€‰ä¸­ï¼‰
+    if (selection == 2) {
+        settextcolor(YELLOW);
+        outtextxy(475, 200, _T("> æ¸¸æˆè®¾ç½® <"));
+    }
+    else {
+        settextcolor(WHITE);
+        outtextxy(500, 200, _T("æ¸¸æˆè®¾ç½®"));
+    }
+
+    // é€‰é¡¹4ï¼šå›¢é˜Ÿä»‹ç»ï¼ˆselection=3è¡¨ç¤ºé€‰ä¸­ï¼‰
+    if (selection == 3) {
+        settextcolor(YELLOW);
+        outtextxy(475, 250, _T("> å›¢é˜Ÿä»‹ç» <"));
+    }
+    else {
+        settextcolor(WHITE);
+        outtextxy(500, 250, _T("å›¢é˜Ÿä»‹ç»"));
+    }
+
+    // 4. ç”»æ“ä½œæç¤º
+    settextstyle(20, 0, _T("å®‹ä½“"));
+    settextcolor(RGB(200, 200, 200));
+    outtextxy(280, 550, _T("W/S: é€‰æ‹©  å›è½¦: ç¡®è®¤"));
 }
 
-// »æÖÆÊ¤Àû½çÃæ
+// ç»˜åˆ¶èƒœåˆ©ç•Œé¢
 void ui_draw_win(int levelNum) {
     render_clear();
     render_rect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, WHITE);
 
     char winText[128];
-    sprintf(winText, "YOU WIN! ¹Ø¿¨ %d Í¨¹ı", levelNum);
+    sprintf(winText, "YOU WIN! å…³å¡ %d é€šè¿‡", levelNum);
     render_text(320, 200, winText, BROWN);
-    render_text(300, 250, "¹§Ï²ÄãÍ¨¹Ø£¡", BROWN);
-    render_text(280, 450, "°´ Enter ½øÈëÏÂÒ»¹Ø", BLACK);
-    render_text(290, 500, "°´ Esc ·µ»Ø²Ëµ¥", BLACK);
+    render_text(300, 250, "æ­å–œä½ é€šå…³ï¼", BROWN);
+    render_text(280, 450, "æŒ‰ Enter è¿›å…¥ä¸‹ä¸€å…³", BLACK);
+    render_text(290, 500, "æŒ‰ Esc è¿”å›èœå•", BLACK);
 
     render_present();
 }
 
-// »æÖÆÊ§°Ü½çÃæ
+// ç»˜åˆ¶å¤±è´¥ç•Œé¢
 void ui_draw_lose() {
     render_clear();
     render_rect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, RED);
 
     render_text(320, 200, "YOU LOSE", BLACK);
-    render_text(340, 250, "ÄãÊ§°ÜÁË", BLACK);
-    render_text(280, 450, "°´ Enter ÖØĞÂ¿ªÊ¼", WHITE);
-    render_text(290, 500, "°´ Esc ·µ»Ø²Ëµ¥", WHITE);
+    render_text(340, 250, "ä½ å¤±è´¥äº†", BLACK);
+    render_text(280, 450, "æŒ‰ Enter é‡æ–°å¼€å§‹", WHITE);
+    render_text(290, 500, "æŒ‰ Esc è¿”å›èœå•", WHITE);
 
     render_present();
 }
