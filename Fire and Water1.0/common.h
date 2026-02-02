@@ -4,27 +4,47 @@
 #include <conio.h>
 #include <windows.h>
 
+// ========== 地图代码块 =========
+
+typedef struct {
+    float x, y;       // 位置
+    float width, height;  // 尺寸
+}MapBoundary;// 地图边界
+
+typedef struct {
+    float x, y;
+    float width, height;
+}Platfrom;// 空气墙
+
+typedef struct {
+    float x, y;    // 位置
+    float width, height;  // 尺寸
+    int type;   // 0:火池，1：水池，2：毒池，3：火出口，4：水出口
+    bool isActive;  // 是否在区域内
+}Trapstation;// 陷阱和出口
+
+
 // ========== 基础类型 ==========
 
 typedef struct {
     float x, y;
-} Vector2;
+}Vector2;
 
 typedef struct {
     float x, y, width, height;
-} Rect;
+}Rect;
 
 typedef enum {
     DIR_LEFT = -1,
     DIR_RIGHT = 1,
     DIR_STAND=0
-} Direction;    // 朝向的定义
+}Direction;    // 朝向的定义
 
 // ========== 枚举定义 ==========
 typedef enum {
     PLAYER_FIRE = 0,    // 火人
     PLAYER_WATER = 1    // 水人
-} PlayerType;
+}PlayerType;
 
 typedef enum {
     STATE_MENU = 0,      // 主菜单
@@ -32,20 +52,20 @@ typedef enum {
     STATE_PAUSE = 2,     // 暂停
     STATE_WIN =  3,      // 胜利
     STATE_LOSE = 4       // 失败
-} GameState;
+}GameState;
 
 typedef enum {
     TILE_EMPTY = 0,     // 空地
     TILE_WALL = 1,      // 墙壁
     TILE_PLATFORM = 2   // 平台
-} TileType;// 砖块类型
+}TileType;// 砖块类型
 
 typedef enum {
     TRAP_NONE = 0,
     TRAP_FIRE = 1,      // 火池：火人过，水人死
     TRAP_WATER = 2,     // 水池：水人过，火人死
     TRAP_SPIKE = 3      // 尖刺：都死
-} TrapType;// 陷阱类型
+}TrapType;// 陷阱类型
 
 // ========== 结构体定义 ==========
 

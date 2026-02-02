@@ -19,29 +19,43 @@ void level_init(Level* level, int levelNum) {
         }
     }
 
-    // 创建简单的地图 - 第一关
+    // 创建地图 第一关
     if (level->currentMap == 0) {
-        // 底部墙壁
-        for (int x = 0; x < level->width; x++) {
-            level->tiles[14][x] = TILE_WALL;
-        }
+        MapBoundary mapboundary_level1[] = {// 地图一的边界
+            {0,0,0,0},// 上
+            {0,0,0,0},// 下
+            {0,0,0,0},// 左
+            {0,0,0,0},// 右
+        };
 
-        // 一些平台
-        level->tiles[10][7] = TILE_PLATFORM;
-        level->tiles[10][8] = TILE_PLATFORM;
-        level->tiles[10][9] = TILE_PLATFORM;
+        Platfrom platfrom_level1[] = {// 地图一的空气墙们
+            {0,0,0,0},
+            {0,0,0,0},
+            {0,0,0,0},
+            {0,0,0,0},
+        };
 
-        // 设置起点
-        level->fireStart.x = 2 * 40;  // 2列 * 40像素
-        level->fireStart.y = 12 * 40; // 12行 * 40像素
+        Trapstation trapstation[] = {// 地图一的各种陷阱和出口
+            {0,0,0,0,0,false},
+            {0,0,0,0,0,false},
+            {0,0,0,0,0,false},
+            {0,0,0,0,0,false},
+        };
+
+        // 设置起点// 这有问题start根本没用上
+        level->fireStart.x = 80;  // 2列 * 40像素
+        level->fireStart.y = 480; // 12行 * 40像素
         level->waterStart.x = 4 * 40;
         level->waterStart.y = 12 * 40;
+    }
 
-        // 设置门
-        level->doorPosition.x = 17 * 40;  // 17列
-        level->doorPosition.y = 5 * 40;   // 5行
-        level->doorPosition.width = 3 * 40;  // 3格宽
-        level->doorPosition.height = 4 * 40; // 4格高
+    // 创建地图 第二关
+    if (level->currentMap == 1) {
+
+    }
+    // 创建地图 第三关
+    if (level->currentMap == 2) {
+
     }
 }
 
