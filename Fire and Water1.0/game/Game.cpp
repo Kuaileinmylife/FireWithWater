@@ -167,19 +167,16 @@ void game_update(Game* game) {
     switch (game->state) {
     case STATE_GAME:
         // 更新玩家
-        player_update(&game->firePlayer);
-        player_update(&game->waterPlayer);
+        player_update(&game->firePlayer,&game->currentLevel);
+        player_update(&game->waterPlayer,&game->currentLevel);
 
         // 检查玩家是否死亡
         if (!game->firePlayer.isAlive || !game->waterPlayer.isAlive) {
             game->state = STATE_LOSE;
         }
 
-        // 检查是否到达门口
-        if (level_check_door(&game->currentLevel, game->firePlayer.position) &&
-            level_check_door(&game->currentLevel, game->waterPlayer.position)) {
-            game->state = STATE_WIN;
-        }
+        //检查是否胜利
+        //if()              // 这个可能要player的iswin
         break;
     default:
         break;

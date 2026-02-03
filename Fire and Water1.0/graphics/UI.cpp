@@ -141,6 +141,63 @@ void ui_draw_team() {
     IMAGE p;
     loadimage(&p, "setbackground.png", WINDOW_WIDTH, WINDOW_HEIGHT);
     putimage(0, 0, &p);
+
+    char name[20][50] = {
+        "组长-柯然",
+        "技术官-V07",
+        "信息官-阿超",
+        "产品经理-金闪闪",
+        "记录官-奶黄包",
+        "产品经理-Star",
+        "技术官-小黄",
+        "产品经理-小李",
+        "监督官-意识",
+        "副组长-立体纸片"
+    };
+    char avatar_path[10][50] = {
+        "ke-ran.jpg",
+        "V07.jpg",
+        "A-chao.jpg",
+        "jin-shan-shan.jpg",
+        "nai-huang-bao.jpg",
+        "Star.jpg",
+        "xiao-huang.jpg",
+        "xiao-li.jpg",
+        "yi-shi.jpg",
+        "zhi-pian.jpg"
+    };
+    settextstyle(50, 50, _T("宋体"));
+    settextcolor(BLACK);
+    outtextxy(225, 25, "团队介绍");
+    for (int i = 0; i < 10; i++)
+    {
+        if (i < 5)
+        {
+            render_text(75 + 100, (100) * (i + 1), name[i],WHITE);
+        }
+        else
+        {
+            render_text(75 + 100 + 350, (100) * (i - 4), name[i],WHITE);
+        }
+    }
+
+    IMAGE img_mm[10];
+    for (int i = 0; i < 10; i++)
+    {
+        loadimage(&img_mm[i], avatar_path[i], 75, 75);
+    }
+
+    for (int i = 0; i < 10; i++)
+    {
+        if (i < 5)
+        {
+            putimage(75, (100) * (i + 1), &img_mm[i]);
+        }
+        else
+        {
+            putimage(75 + 350, (100) * (i - 4), &img_mm[i]);
+        }
+    }
 }
 
 

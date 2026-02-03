@@ -45,8 +45,5 @@ struct TextureManager {
 // º¯ÊıÉùÃ÷
 void tex_init(TextureManager* tm);
 void tex_load_all(TextureManager* tm);
-IMAGE* tex_get(TextureManager* tm, TextureID id);
-void tex_cleanup(TextureManager* tm);
-void CreatePlaceholderTexture(IMAGE* img, int texId);
 
 extern TextureManager g_textures;

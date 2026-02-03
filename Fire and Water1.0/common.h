@@ -23,11 +23,17 @@ typedef struct {
     bool isActive;  // 是否在区域内
 }Trapstation;// 陷阱和出口
 
+typedef struct {
+    bool shouldStopX;     // 是否需要停止水平移动
+    bool shouldStopY;     // 是否需要停止垂直移动
+    bool isOnGround;      // 是否在地面上
+    float groundY;        // 地面的Y坐标（如果站在平台上）
+} CollisionInfo;
 
 // ========== 基础类型 ==========
 
 typedef struct {
-    float x, y;
+    float x, y, width, height;
 }Vector2;
 
 typedef struct {
@@ -80,6 +86,7 @@ typedef struct {
     bool isAlive;        // 是否活着
     bool isJumping;      // 是否在跳跃
     Direction facing;    // 朝向
+    bool iswin;          // 是否到达出口
 } Player;
 
 // 关卡属性
@@ -99,19 +106,10 @@ typedef struct {
     MapBoundary mapboundary_level1[4];  // 地图一的四个边界
     Platfrom platfrom_level1[100];  // 地图一的空气墙
     Trapstation trapstation1[100];   // 地图一的陷阱以及出口
+
+    CollisionInfo info;
 } Level;
 
-//// 游戏主结构
-//typedef struct {
-//    GameState state;              // 当前状态
-//    Player firePlayer;            // 火人
-//    Player waterPlayer;           // 水人
-//    Level currentLevel;           // 当前关卡编号
-//    int currentLevelNum;          // 关卡编号
-//    bool isRunning;               // 游戏是否运行
-//    int menuSelection;            // 添加菜单选择(0-3)
-//    int pauseSelection;           // 添加暂停选择(0-1)
-//} Game;
 
 // ========== 游戏常量 ==========
 

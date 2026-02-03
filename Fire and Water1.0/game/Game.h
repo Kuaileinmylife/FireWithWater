@@ -15,7 +15,6 @@ typedef struct Game {
 // 游戏函数声明
 
 // 游戏初始化
-// 负责人：金闪闪1
 // 功能：
 // 1：调用render_init();初始化窗口
 // 2：设置游戏初始化状态(仔细看定义里面需要初始化的地方)
@@ -25,7 +24,6 @@ typedef struct Game {
 void game_init(Game* game);
 
 // 游戏主循环
-// 负责人：奶黄包1
 // 功能：
 // 1；仔细观看定义设计循环while
 // 2：调用game_handle_input处理输入
@@ -36,7 +34,6 @@ void game_init(Game* game);
 void game_run(Game* game);
 
 // 计算游戏变化
-// 负责人：小黄1
 // 功能：
 // 1：必须在游戏状态下才更新
 // 2：调用player_update更新移动，重力等
@@ -48,14 +45,12 @@ void game_run(Game* game);
 void game_update(Game* game);
 
 // 绘制游戏画面
-// 负责人：纸片1
 // 功能：把游戏可视化到窗口上
 // 1；清屏
 // 2；详细看定义，根据游戏状态(界面)绘制，比如；调用ui_draw_menu绘制主菜单，调用ui_draw_game绘制游戏画面，调用ui_draw_game再调用ui_draw_pause实现暂停界面，调用ui_draw_win绘制胜利界面，调用ui_draw_lose绘制失败界面，最后调用render_present显示到屏幕
 void game_draw(Game* game);
 
 // 读取玩家的操作
-// 负责人：纸片2
 // 功能：
 // 1; 调用input_update更新输入状态(一定仔细看定义)
 // 2：根据当前游戏状态(所处界面)switch处理不同的输入。比如：菜单状态，处理ws选择菜单栏，游戏状态，处理人物的移动(调player_move,player_jump),游戏内的按键，暂停等，最后还有暂停状态

@@ -22,7 +22,6 @@ static void add_trap(Level* level, float x, float y, float w, float h, TrapType 
 // 关卡函数声明
 
 // 关卡初始化
-// 负责人：v073
 // 功能：
 // 1；根据关卡编号初始化对应的地图
 // 2；仔细看定义初始化地图大小，陷阱数量等
@@ -30,20 +29,17 @@ static void add_trap(Level* level, float x, float y, float w, float h, TrapType 
 void level_init(Level* level, int levelNum);
 
 // 关卡绘图
-// 负责人；意识3
 // 功能；
 // 1；画地图背景，墙，平台，陷阱，门
 // 2；一定要设计好每个方块的尺寸，以及每个格子的像素
 void level_draw(const Level* level, TextureManager* tm);
 
 // 检测玩家是否到门口
-// 负责人；v071
 // 功能；
 // 1;检测两个玩家的矩形是否在门的矩形范围内，必须有返回值
 bool level_check_door(const Level* level, Vector2 pos);
 
 // 检查陷阱碰撞
-// 负责人；v073
 // 功能；
 // 1；先获取玩家的碰撞框(仔细看定义)
 // 2；调用collision_check检查陷阱的碰撞，然后根据陷阱类型对玩家类型进行相应的处理，比如；火池；火人没事，水娃嘎掉...一定要看定义

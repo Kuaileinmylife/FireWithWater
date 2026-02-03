@@ -1,21 +1,17 @@
 #pragma once
-//#include "../common.h"
-//#include "Render.h"
-//#include "../graphics/texture.h"
 
-// 前向声明，避免包含头文件
+
+// 前向声明
 struct Game;
 struct TextureManager;
 
 // 绘制主菜单
-// 负责人：柯然1
 // 功能：
 // 1：显示游戏开始菜单，根据需求文档上的选项来，最终样子根据产品原型图来做
 // 2：背景(先设置为纯色)
 void ui_draw_menu(int selection);
 
 // 绘制游戏界面
-// 负责人：star1
 // 功能：显示游戏进行时的画面，包括玩家、关卡、UI信息
 // 1：画背景(先纯色)
 // 2: 跟着地图设计画出平台，人物，出口，机关，陷阱等（要精细到每个东西的位置）
@@ -23,19 +19,16 @@ void ui_draw_menu(int selection);
 void ui_draw_game(Game* game, TextureManager* tm);
 
 // 绘制暂停界面
-// 负责人：柯然2
 // 功能：游戏暂停时显示的界面
 // 1：如果可以就设计半透明的背景来做暂停的界面，界面的内容与设置界面的内容一致，多个继续游戏
 // 2：注意要显示暂停这个大标题
 void ui_draw_pause(int selection);
 
 // 绘制团队介绍界面
-// 负责人：阿超4
 // 功能：展示组员的头像以及对应的职位
 void ui_draw_team();
 
 // 绘制胜利界面
-//负责人：阿超1
 // 功能：胜利界面显示
 // 1：胜利背景(先设计为纯色)
 // 2：显示胜利的大标题，然后是通关的关卡数
@@ -44,7 +37,6 @@ void ui_draw_team();
 void ui_draw_win(int levelNum);
 
 // 绘制失败界面
-//负责人：阿超1
 // 功能：失败界面显示
 // 1：失败背景(先设计为纯色)
 // 2：显示失败的大标题
