@@ -29,6 +29,11 @@ void ui_draw_game(Game* game, TextureManager* tm);
 // 2：注意要显示暂停这个大标题
 void ui_draw_pause(int selection);
 
+// 绘制团队介绍界面
+// 负责人：阿超4
+// 功能：展示组员的头像以及对应的职位
+void ui_draw_team();
+
 // 绘制胜利界面
 //负责人：阿超1
 // 功能：胜利界面显示

@@ -7,9 +7,6 @@
 void level_init(Level* level, int levelNum) {
     if (!level) return;
 
-    level->width = 20;
-    level->height = 15;
-    level->trapCount = 0;
     level->currentMap = 0;
 
     // 初始化所有格子为空地
@@ -21,28 +18,28 @@ void level_init(Level* level, int levelNum) {
 
     // 创建地图 第一关
     if (level->currentMap == 0) {
-        MapBoundary mapboundary_level1[] = {// 地图一的边界
-            {0,0,0,0},// 上
-            {0,0,0,0},// 下
-            {0,0,0,0},// 左
-            {0,0,0,0},// 右
-        };
+        // 地图一的边界
+        level->mapboundary_level1[0] = MapBoundary{ 0,0,0,0 };
+        level->mapboundary_level1[1] = MapBoundary{ 0,0,0,0 };
+        level->mapboundary_level1[2] = MapBoundary{ 0,0,0,0 };
+        level->mapboundary_level1[3] = MapBoundary{ 0,0,0,0 };
 
-        Platfrom platfrom_level1[] = {// 地图一的空气墙们
-            {0,0,0,0},
-            {0,0,0,0},
-            {0,0,0,0},
-            {0,0,0,0},
-        };
+        // 地图一的空气墙们
+        level->platfrom_level1[0] = Platfrom{ 0,0,0,0 };
+        level->platfrom_level1[1] = Platfrom{ 0,0,0,0 };
+        level->platfrom_level1[2] = Platfrom{ 0,0,0,0 };
+        level->platfrom_level1[3] = Platfrom{ 0,0,0,0 };
 
-        Trapstation trapstation[] = {// 地图一的各种陷阱和出口
-            {0,0,0,0,0,false},
-            {0,0,0,0,0,false},
-            {0,0,0,0,0,false},
-            {0,0,0,0,0,false},
-        };
+        // 地图一的各种陷阱和出口
+        level->trapstation1[0] = Trapstation{ 0,0,0,0,0,false };
+        level->trapstation1[1] = Trapstation{ 0,0,0,0,0,false };
+        level->trapstation1[2] = Trapstation{ 0,0,0,0,0,false };
+        level->trapstation1[3] = Trapstation{ 0,0,0,0,0,false };
+            
+        // 设置陷阱和出口一共的数量(这要初始化)
+        level->trapCount = 0;
 
-        // 设置起点// 这有问题start根本没用上
+        // 设置起点    // 这有问题start根本没用上
         level->fireStart.x = 80;  // 2列 * 40像素
         level->fireStart.y = 480; // 12行 * 40像素
         level->waterStart.x = 4 * 40;

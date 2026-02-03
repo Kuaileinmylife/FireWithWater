@@ -46,8 +46,8 @@ void player_update(Player* p) {
     p->position.y += p->velocity.y;
 
     // 更新碰撞框
-    p->bounds.x = p->position.x;
-    p->bounds.y = p->position.y;
+    /*p->bounds.x = p->position.x;
+    p->bounds.y = p->position.y;*/
 
     // 简单的地面检测（假设窗口底部是地面）
     if (p->position.y + PLAYER_HEIGHT >= WINDOW_HEIGHT) {

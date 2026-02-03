@@ -51,7 +51,8 @@ typedef enum {
     STATE_GAME = 1,      // 游戏中
     STATE_PAUSE = 2,     // 暂停
     STATE_WIN =  3,      // 胜利
-    STATE_LOSE = 4       // 失败
+    STATE_LOSE = 4,       // 失败
+    STATE_TEAM=5           // 团队介绍界面
 }GameState;
 
 typedef enum {
@@ -90,8 +91,14 @@ typedef struct {
     Rect doorPosition;            // 门的位置
     TrapType traps[10];           // 陷阱类型
     Rect trapRects[10];           // 陷阱位置
+
+    int platfromCount;            // 空气墙数量
     int trapCount;                // 陷阱数量
     int currentMap;               // 当前地图编号
+
+    MapBoundary mapboundary_level1[4];  // 地图一的四个边界
+    Platfrom platfrom_level1[100];  // 地图一的空气墙
+    Trapstation trapstation1[100];   // 地图一的陷阱以及出口
 } Level;
 
 //// 游戏主结构

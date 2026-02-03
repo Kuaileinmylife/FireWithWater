@@ -105,6 +105,7 @@ void game_handle_input(Game* game) {
             }
             else if (game->menuSelection == 3) {
                 // 团队介绍
+                game->state = STATE_TEAM;
             }
         }
         break;
@@ -154,6 +155,8 @@ void game_handle_input(Game* game) {
             }
         }
         break;
+    case STATE_TEAM:
+        if (g_input.keyEsc) game->state = STATE_MENU;  // 返回菜单
     }
 }
 
@@ -212,6 +215,9 @@ void game_draw(Game* game) {
 
     case STATE_LOSE:
         ui_draw_lose();  // 失败界面
+        break;
+    case STATE_TEAM:
+        ui_draw_team();  // 团队介绍界面
         break;
     }
 

@@ -44,7 +44,7 @@ void ui_draw_pause(int selection) {
     setbkmode(TRANSPARENT);
     cleardevice();
     IMAGE p;
-    loadimage(&p, "mainmenu.png", WINDOW_WIDTH, WINDOW_HEIGHT);
+    loadimage(&p, "setbackground.png", WINDOW_WIDTH, WINDOW_HEIGHT);
     putimage(0, 0, &p);
     settextstyle(32, 0, _T("宋体"));
 
@@ -132,6 +132,17 @@ void ui_draw_menu(int selection) {
     settextcolor(RGB(200, 200, 200));
     outtextxy(280, 550, _T("W/S: 选择  回车: 确认"));
 }
+
+// 绘制团队介绍界面
+void ui_draw_team() {
+    // 当按下esc的时候返回菜单界面
+    // 背景先用setbackground.png
+    // 提示按esc返回菜单
+    IMAGE p;
+    loadimage(&p, "setbackground.png", WINDOW_WIDTH, WINDOW_HEIGHT);
+    putimage(0, 0, &p);
+}
+
 
 // 绘制胜利界面
 void ui_draw_win(int levelNum) {
