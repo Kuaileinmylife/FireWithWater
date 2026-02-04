@@ -25,8 +25,8 @@ void player_init(Player* p, PlayerType type, float x, float y) {// 这里可能需要L
     p->bounds.width = PLAYER_WIDTH;
     p->bounds.height = PLAYER_HEIGHT;
 
-    p->position.width = 50; // 玩家的尺寸
-    p->position.height = 50;
+    p->position.width = 25; // 玩家的尺寸
+    p->position.height = 25;
     p->iswin = false;  // 胜利判断的
 }
 
@@ -36,12 +36,8 @@ void player_update(Player* p,Level* L) {
     
     
     // 应用重力
-    if (!collision_check(p, L)) {
-        p->velocity.y += GRAVITY;
-    }
-    else {
-        // 这里先不忙，等空气墙弄好后再改
-    }
+    p->velocity.y += GRAVITY;
+   
 
     // 限制最大下落速度
     if (p->velocity.y > 20.0f) {
@@ -53,26 +49,35 @@ void player_update(Player* p,Level* L) {
         p->position.x += p->velocity.x;
     }
     p->position.y += p->velocity.y;
+    collision_check(p, L);
 
-
-    // 简单的地面检测（假设窗口底部是地面）
-    if (p->position.y + PLAYER_HEIGHT >= WINDOW_HEIGHT) {
-        p->position.y = WINDOW_HEIGHT - PLAYER_HEIGHT;
-        p->velocity.y = 0;
-        p->isOnGround = true;
-        p->isJumping = false;
-    }
-    else {
-        p->isOnGround = false;
+    if (L->info.shouldStopX || L->info.shouldStopY) {
+        p->position.x -= p->velocity.x;
+        L->info.shouldStopX = false;
+        p->position.y -= GRAVITY;
+        L->info.shouldStopY = false;
     }
 
-    // 简单的墙壁检测（假设窗口边界是墙壁）
-    if (p->position.x < 0) {
-        p->position.x = 0;
-    }
-    if (p->position.x + PLAYER_WIDTH > WINDOW_WIDTH) {
-        p->position.x = WINDOW_WIDTH - PLAYER_WIDTH;
-    }
+    //printf("%lf %lf\n", p->position.x, p->position.y);
+
+    //// 简单的地面检测（假设窗口底部是地面）
+    //if (p->position.y + PLAYER_HEIGHT >= WINDOW_HEIGHT) {
+    //    p->position.y = WINDOW_HEIGHT - PLAYER_HEIGHT;
+    //    p->velocity.y = 0;
+    //    p->isOnGround = true;
+    //    p->isJumping = false;
+    //}
+    //else {
+    //    p->isOnGround = false;
+    //}
+
+    //// 简单的墙壁检测（假设窗口边界是墙壁）
+    //if (p->position.x < 0) {
+    //    p->position.x = 0;
+    //}
+    //if (p->position.x + PLAYER_WIDTH > WINDOW_WIDTH) {
+    //    p->position.x = WINDOW_WIDTH - PLAYER_WIDTH;
+    //}
 }
 
 // 移动玩家

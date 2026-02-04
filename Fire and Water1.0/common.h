@@ -121,7 +121,7 @@ typedef struct {
 // 玩家设置
 #define PLAYER_WIDTH   40       // 玩家矩形的宽
 #define PLAYER_HEIGHT  60       // 玩家矩形的高
-#define PLAYER_SPEED   5.0f     // 玩家的速度
+#define PLAYER_SPEED   5.3f     // 玩家的速度
 #define JUMP_FORCE    -12.0f    // 起跳的速度
 #define GRAVITY        1.0f     // 重力
 

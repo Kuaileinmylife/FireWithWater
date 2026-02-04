@@ -139,7 +139,7 @@ void ui_draw_team() {
     // 背景先用setbackground.png
     // 提示按esc返回菜单
     IMAGE p;
-    loadimage(&p, "setbackground.png", WINDOW_WIDTH, WINDOW_HEIGHT);
+    loadimage(&p, "teamback.jpg", WINDOW_WIDTH, WINDOW_HEIGHT);
     putimage(0, 0, &p);
 
     char name[20][50] = {
@@ -167,7 +167,7 @@ void ui_draw_team() {
         "zhi-pian.jpg"
     };
     settextstyle(50, 50, _T("宋体"));
-    settextcolor(BLACK);
+    settextcolor(YELLOW);
     outtextxy(225, 25, "团队介绍");
     for (int i = 0; i < 10; i++)
     {

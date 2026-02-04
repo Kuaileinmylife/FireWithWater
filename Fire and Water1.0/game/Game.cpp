@@ -37,12 +37,12 @@ void game_init(Game* game) {
     game->menuSelection = 0;
     game->pauseSelection = 0;
 
-    // 4. 初始化玩家
-    player_init(&game->firePlayer, PLAYER_FIRE, 100, 400);
-    player_init(&game->waterPlayer, PLAYER_WATER, 150, 400);
-
     // 5. 初始化关卡
     level_init(&game->currentLevel, game->currentLevelNum);
+
+    // 4. 初始化玩家
+    player_init(&game->firePlayer, PLAYER_FIRE, game->currentLevel.fireStart.x, game->currentLevel.fireStart.y);
+    player_init(&game->waterPlayer, PLAYER_WATER, game->currentLevel.waterStart.x, game->currentLevel.waterStart.y);
 }
 
 // 运行游戏主循环
