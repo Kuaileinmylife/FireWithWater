@@ -6,7 +6,7 @@
 // ³õÊ¼»¯¹Ø¿¨
 int level_init(Level* level, int levelNum) {
     if (!level->isinit) {
-        level->currentMap = 2;
+        level->currentMap = 0;
     }
 
     level->info.isOnGround = false;

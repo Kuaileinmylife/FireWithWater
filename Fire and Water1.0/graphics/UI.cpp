@@ -205,14 +205,17 @@ void ui_draw_team() {
 // 绘制胜利界面
 void ui_draw_win(int levelNum) {
     render_clear();
-    render_rect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, WHITE);
+    IMAGE img_win_bg;
+    loadimage(&img_win_bg, "winback.jpg", WINDOW_WIDTH, WINDOW_HEIGHT);
+    putimage(0, 0, &img_win_bg);
 
     char winText[128];
-    sprintf(winText, "YOU WIN! 关卡 %d 通过", levelNum);
-    render_text(320, 200, winText, BROWN);
-    render_text(300, 250, "恭喜你通关！", BROWN);
-    render_text(280, 450, "按 Enter 进入下一关", BLACK);
-    render_text(290, 500, "按 Esc 返回菜单", BLACK);
+    sprintf(winText, "YOU WIN! 关卡 %d 通过", levelNum+1);
+
+    render_text(400 - textwidth(winText) / 2, 200, winText, YELLOW);
+    render_text(400 - textwidth("恭喜你通关！") / 2, 250, "恭喜你通关！", YELLOW);
+    render_text(400 - textwidth("按 Enter 进入下一关") / 2, 350, "按 Enter 进入下一关", BLACK);
+    render_text(400 - textwidth("按 Esc 返回菜单") / 2, 400, "按 Esc 返回菜单", BLACK);
 
     render_present();
 }
@@ -220,12 +223,15 @@ void ui_draw_win(int levelNum) {
 // 绘制失败界面
 void ui_draw_lose() {
     render_clear();
-    render_rect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, RED);
 
-    render_text(320, 200, "YOU LOSE", BLACK);
-    render_text(340, 250, "你失败了", BLACK);
-    render_text(280, 450, "按 Enter 重新开始", WHITE);
-    render_text(290, 500, "按 Esc 返回菜单", WHITE);
+    IMAGE img_lose_bg;
+    loadimage(&img_lose_bg, "loseback.jpg", WINDOW_WIDTH, WINDOW_HEIGHT);
+    putimage(0, 0, &img_lose_bg);
+
+    render_text(400 - textwidth("YOU LOSE") / 2, 200, "YOU LOSE", BLACK);
+    render_text(400 - textwidth("你失败了") / 2, 250, "你失败了", BLACK);
+    render_text(400 - textwidth("按 Enter 重新开始") / 2, 350, "按 Enter 重新开始", WHITE);
+    render_text(400 - textwidth("按 Esc 返回菜单") / 2, 400, "按 Esc 返回菜单", WHITE);
 
     render_present();
 }
