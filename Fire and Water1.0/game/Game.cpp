@@ -22,6 +22,7 @@ extern TextureManager g_textures;
 // 初始化游戏
 void game_init(Game* game) {
     if (!game) return;
+    game->currentLevel.isinit = false;
 
     // 1. 初始化图形窗口
     render_init();
@@ -38,11 +39,14 @@ void game_init(Game* game) {
     game->pauseSelection = 0;
 
     // 5. 初始化关卡
-    level_init(&game->currentLevel, game->currentLevelNum);
+    game->currentLevelNum = level_init(&game->currentLevel, game->currentLevelNum);
+    game->currentLevel.currentMap = 0;
 
     // 4. 初始化玩家
     player_init(&game->firePlayer, PLAYER_FIRE, game->currentLevel.fireStart.x, game->currentLevel.fireStart.y);
     player_init(&game->waterPlayer, PLAYER_WATER, game->currentLevel.waterStart.x, game->currentLevel.waterStart.y);
+
+    game->currentLevel.isinit = true;
 }
 
 // 运行游戏主循环
@@ -56,10 +60,10 @@ void game_run(Game* game) {
         game_draw(game);
         Sleep(16); // 控制帧率
     }
-    GameState state = game->state;
-    if (state == STATE_WIN || state == STATE_LOSE) {
+    //GameState state = game->state;
+    /*if (state == STATE_WIN || state == STATE_LOSE) {
         closegraph();
-    }
+    }*/
 }
 
 // 处理输入
@@ -157,6 +161,34 @@ void game_handle_input(Game* game) {
         break;
     case STATE_TEAM:
         if (g_input.keyEsc) game->state = STATE_MENU;  // 返回菜单
+        break;
+    case STATE_WIN:
+        if (g_input.keyEnter) {
+            game->currentLevelNum++;
+            game->currentLevel.currentMap++;
+            if (game->currentLevelNum >= 3 && game->currentLevel.currentMap >= 3) {
+                game->state = STATE_MENU;
+                break;
+            }
+            game->state = STATE_GAME;
+             level_init(&game->currentLevel, game->currentLevelNum);
+            player_init(&game->firePlayer, PLAYER_FIRE, game->currentLevel.fireStart.x, game->currentLevel.fireStart.y);
+            player_init(&game->waterPlayer, PLAYER_WATER, game->currentLevel.waterStart.x, game->currentLevel.waterStart.y);
+        }
+        if (g_input.keyEsc) {
+            game->state = STATE_MENU;
+        }
+        break;
+    case STATE_LOSE:
+        if (g_input.keyEnter) {
+            game->state = STATE_GAME;
+            player_init(&game->firePlayer, PLAYER_FIRE, game->currentLevel.fireStart.x, game->currentLevel.fireStart.y);
+            player_init(&game->waterPlayer, PLAYER_WATER, game->currentLevel.waterStart.x, game->currentLevel.waterStart.y);
+        }
+        if (g_input.keyEsc) {
+            game->state = STATE_MENU;
+        }
+        break;
     }
 }
 
@@ -170,13 +202,18 @@ void game_update(Game* game) {
         player_update(&game->firePlayer,&game->currentLevel);
         player_update(&game->waterPlayer,&game->currentLevel);
 
+
         // 检查玩家是否死亡
         if (!game->firePlayer.isAlive || !game->waterPlayer.isAlive) {
             game->state = STATE_LOSE;
+            game->firePlayer.isAlive = true;
+            game->waterPlayer.isAlive = true;
         }
 
         //检查是否胜利
-        //if()              // 这个可能要player的iswin
+        if (game->firePlayer.iswin && game->waterPlayer.iswin) {
+            game->state = STATE_WIN;
+        }
         break;
     default:
         break;

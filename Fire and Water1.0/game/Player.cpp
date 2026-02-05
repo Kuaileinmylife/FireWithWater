@@ -8,7 +8,7 @@
 #include <graphics.h>
 
 // 初始化玩家
-void player_init(Player* p, PlayerType type, float x, float y) {// 这里可能需要Level初始化玩家初始位置
+void player_init(Player* p, PlayerType type, float x, float y) {
     if (!p) return;
 
     p->type = type;
@@ -40,8 +40,8 @@ void player_update(Player* p,Level* L) {
    
 
     // 限制最大下落速度
-    if (p->velocity.y > 20.0f) {
-        p->velocity.y = 20.0f;
+    if (p->velocity.y > 12.0f) {
+        p->velocity.y = 12.0f;
     }
 
     // 更新位置
@@ -57,27 +57,6 @@ void player_update(Player* p,Level* L) {
         p->position.y -= GRAVITY;
         L->info.shouldStopY = false;
     }
-
-    //printf("%lf %lf\n", p->position.x, p->position.y);
-
-    //// 简单的地面检测（假设窗口底部是地面）
-    //if (p->position.y + PLAYER_HEIGHT >= WINDOW_HEIGHT) {
-    //    p->position.y = WINDOW_HEIGHT - PLAYER_HEIGHT;
-    //    p->velocity.y = 0;
-    //    p->isOnGround = true;
-    //    p->isJumping = false;
-    //}
-    //else {
-    //    p->isOnGround = false;
-    //}
-
-    //// 简单的墙壁检测（假设窗口边界是墙壁）
-    //if (p->position.x < 0) {
-    //    p->position.x = 0;
-    //}
-    //if (p->position.x + PLAYER_WIDTH > WINDOW_WIDTH) {
-    //    p->position.x = WINDOW_WIDTH - PLAYER_WIDTH;
-    //}
 }
 
 // 移动玩家
@@ -89,7 +68,7 @@ void player_move(Player* p, float dx) {
     // dx = 1：向右移动
 
     // 设置水平速度
-    p->velocity.x = dx * PLAYER_SPEED;  // PLAYER_SPEED = 5.0f
+    p->velocity.x = dx * PLAYER_SPEED;
 
     // 记录朝向（用于绘制和动画）
     if (dx < 0) {

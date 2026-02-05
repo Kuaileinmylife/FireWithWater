@@ -26,7 +26,7 @@ static void add_trap(Level* level, float x, float y, float w, float h, TrapType 
 // 1；根据关卡编号初始化对应的地图
 // 2；仔细看定义初始化地图大小，陷阱数量等
 // 3；用switch来设置每一关玩家的初始位置，用字符表示地图的各个属性，比如'#'代表墙壁，其余的可自己定义，加好注释
-void level_init(Level* level, int levelNum);
+int level_init(Level* level, int levelNum);
 
 // 关卡绘图
 // 功能；
@@ -34,17 +34,17 @@ void level_init(Level* level, int levelNum);
 // 2；一定要设计好每个方块的尺寸，以及每个格子的像素
 void level_draw(const Level* level, TextureManager* tm);
 
-// 检测玩家是否到门口
-// 功能；
-// 1;检测两个玩家的矩形是否在门的矩形范围内，必须有返回值
-bool level_check_door(const Level* level, Vector2 pos);
-
-// 检查陷阱碰撞
-// 功能；
-// 1；先获取玩家的碰撞框(仔细看定义)
-// 2；调用collision_check检查陷阱的碰撞，然后根据陷阱类型对玩家类型进行相应的处理，比如；火池；火人没事，水娃嘎掉...一定要看定义
-// 3；返回值一定要正确
-bool level_check_trap_collision(const Level* level, const Player* player);
+//// 检测玩家是否到门口
+//// 功能；
+//// 1;检测两个玩家的矩形是否在门的矩形范围内，必须有返回值
+//bool level_check_door(const Level* level, Vector2 pos);
+//
+//// 检查陷阱碰撞
+//// 功能；
+//// 1；先获取玩家的碰撞框(仔细看定义)
+//// 2；调用collision_check检查陷阱的碰撞，然后根据陷阱类型对玩家类型进行相应的处理，比如；火池；火人没事，水娃嘎掉...一定要看定义
+//// 3；返回值一定要正确
+//bool level_check_trap_collision(const Level* level, const Player* player);
 
 
 

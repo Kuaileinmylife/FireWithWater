@@ -107,7 +107,17 @@ typedef struct {
     Platfrom platfrom_level1[100];  // 地图一的空气墙
     Trapstation trapstation1[100];   // 地图一的陷阱以及出口
 
+    MapBoundary mapboundary_level2[4];  // 地图二的四个边界
+    Platfrom platfrom_level2[100];  // 地图二的空气墙
+    Trapstation trapstation2[100];   // 地图二的陷阱以及出口
+
+    MapBoundary mapboundary_level3[4];  // 地图三的四个边界
+    Platfrom platfrom_level3[200];  // 地图三的空气墙
+    Trapstation trapstation3[100];   // 地图三的陷阱以及出口
+
     CollisionInfo info;
+
+    bool isinit;
 } Level;
 
 

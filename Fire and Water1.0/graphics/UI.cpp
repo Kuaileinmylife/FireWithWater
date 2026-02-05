@@ -17,6 +17,7 @@ void ui_draw_game(Game* game, TextureManager* tm) {
     // 1. 绘制背景
     render_rect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, COLOR_BG);
 
+    game->currentLevel.currentMap = game->currentLevelNum;                                                                
     // 2. 绘制当前关卡
     level_draw(&game->currentLevel,tm);
 
