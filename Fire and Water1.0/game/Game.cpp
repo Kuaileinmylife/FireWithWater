@@ -156,6 +156,13 @@ void game_handle_input(Game* game) {
             }
             else {
                 game->state = STATE_MENU;  // ·µ»ØÖ÷²Ëµ¥
+                game->currentLevel.currentMap = 0;
+                game->currentLevelNum = 0;
+                game->currentLevel.isinit = false;
+                level_init(&game->currentLevel, game->currentLevelNum);
+                game->currentLevel.isinit = true;
+                player_init(&game->firePlayer, PLAYER_FIRE, game->currentLevel.fireStart.x, game->currentLevel.fireStart.y);
+                player_init(&game->waterPlayer, PLAYER_WATER, game->currentLevel.waterStart.x, game->currentLevel.waterStart.y);
             }
         }
         break;

@@ -90,10 +90,13 @@ int level_init(Level* level, int levelNum) {
         level->platfrom_level1[54] = Platfrom{ 18,9,768,20 };
         level->platfrom_level1[55] = Platfrom{ 580,240,25,20 };
         level->platfrom_level1[56] = Platfrom{ 33,367,49,10 };
+        level->platfrom_level1[57] = Platfrom{ 409.65,310.69,8.25,10 };
+        level->platfrom_level1[58] = Platfrom{ 423,325,8,10 };
+        level->platfrom_level1[59] = Platfrom{ 409,310,20,20 };
 
         
         // 设置空气墙的数量
-        level->platfromCount = 57;
+        level->platfromCount = 60;
         
 
         // 地图一的各种陷阱和出口

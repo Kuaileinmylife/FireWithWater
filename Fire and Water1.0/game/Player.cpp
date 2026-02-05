@@ -126,6 +126,10 @@ void player_draw(Player* p, TextureManager* tm) {
     if (!p || !p->isAlive) return;
     IMAGE I;
     if (p->type == PLAYER_FIRE) {
+        if (p->velocity.y >= 0 && p->isJumping) {
+            loadimage(&I, "firedown.png", p->position.width, p->position.height);
+            mytransparentimage(p->position.x, p->position.y, &I, RGB(0, 0, 0));
+        }
         if (!p->isJumping && p->facing==DIR_STAND) {
             loadimage(&I, "firejump1.png", p->position.width, p->position.height);
             mytransparentimage(p->position.x, p->position.y, &I,RGB(0,0,0));
@@ -140,12 +144,16 @@ void player_draw(Player* p, TextureManager* tm) {
             mytransparentimage(p->position.x, p->position.y, &I,RGB(0,0,0));
             p->facing = DIR_STAND;
         }
-        if (p->isJumping) {
+        if (p->isJumping && p->velocity.y<0) {
             loadimage(&I, "firejump2.png", p->position.width, p->position.height);
             mytransparentimage(p->position.x, p->position.y, &I,RGB(0,0,0));
         }
     }
     else {
+        if (p->velocity.y >= 0 && p->isJumping) {
+            loadimage(&I, "icedown.png", p->position.width, p->position.height);
+            mytransparentimage(p->position.x, p->position.y, &I, RGB(0, 0, 0));
+        }
         if (!p->isJumping && p->facing == DIR_STAND) {
             loadimage(&I, "icejump1.png", p->position.width, p->position.height);
             mytransparentimage(p->position.x, p->position.y, &I,RGB(0,0,0));
@@ -160,7 +168,7 @@ void player_draw(Player* p, TextureManager* tm) {
             mytransparentimage(p->position.x, p->position.y, &I,RGB(0,0,0));
             p->facing = DIR_STAND;
         }
-        if (p->isJumping) {
+        if (p->isJumping && p->velocity.y < 0) {
             loadimage(&I, "icejump2.png", p->position.width, p->position.height);
             mytransparentimage(p->position.x, p->position.y, &I,RGB(0,0,0));
         }
