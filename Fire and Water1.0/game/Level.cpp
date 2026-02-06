@@ -100,8 +100,8 @@ int level_init(Level* level, int levelNum) {
         
 
         // 地图一的各种陷阱和出口
-        level->trapstation1[0] = Trapstation{ 378,565,77,9,0,false };
-        level->trapstation1[1] = Trapstation{ 540.65,560,83,6.5,1,false };
+        level->trapstation1[0] = Trapstation{ 387,565,70,9,0,false };
+        level->trapstation1[1] = Trapstation{ 546.65,565,71,9.5,1,false };
         level->trapstation1[2] = Trapstation{ 504,454,67,6,2,false };
         level->trapstation1[3] = Trapstation{ 638.9,71.5,41,51.7,3,false };
         level->trapstation1[4] = Trapstation{ 698.25,76.55,46.88,46.23,4,false };
@@ -162,8 +162,8 @@ int level_init(Level* level, int levelNum) {
         level->platfromCount = 32;
 
         // 地图一的各种陷阱和出口
-        level->trapstation2[0] = Trapstation{ 458.0, 331.0, 157.0, 12.0,2,false };
-        level->trapstation2[1] = Trapstation{ 169.0, 331.0, 177.0, 13.0,2,false };
+        level->trapstation2[0] = Trapstation{ 450.0, 331.0, 157.0, 12.0,2,false };
+        level->trapstation2[1] = Trapstation{ 162.0, 331.0, 177.0, 13.0,2,false };
         level->trapstation2[2] = Trapstation{ 460.0, 516.0, 161.0, 13.0,0,false };
         level->trapstation2[3] = Trapstation{ 128.0, 578.0, 178.0, 11.0,0,false };
         level->trapstation2[4] = Trapstation{ 124.0, 515.0, 185.0, 13.0,1,false };

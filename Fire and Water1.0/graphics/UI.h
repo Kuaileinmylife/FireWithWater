@@ -43,3 +43,10 @@ void ui_draw_win(int levelNum);
 // 3：显示下一步提示
 // 4：之后可以考虑失败触发特效(拓展)
 void ui_draw_lose();
+
+
+// 绘制设置界面
+// 功能：
+// 1；音乐开关
+// 2; 音量大小
+void ui_draw_set(int selection);

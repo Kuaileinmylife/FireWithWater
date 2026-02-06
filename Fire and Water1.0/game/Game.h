@@ -55,3 +55,6 @@ void game_draw(Game* game);
 // 1; 调用input_update更新输入状态(一定仔细看定义)
 // 2：根据当前游戏状态(所处界面)switch处理不同的输入。比如：菜单状态，处理ws选择菜单栏，游戏状态，处理人物的移动(调player_move,player_jump),游戏内的按键，暂停等，最后还有暂停状态
 void game_handle_input(Game* game);
+
+// 调节音量的函数
+void update_music_volume();

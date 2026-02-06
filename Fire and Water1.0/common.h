@@ -4,6 +4,11 @@
 #include <conio.h>
 #include <windows.h>
 
+#include <string.h>
+#include <stdbool.h>
+#pragma comment(lib, "winmm.lib")
+
+
 // ========== 地图代码块 =========
 
 typedef struct {
@@ -57,8 +62,9 @@ typedef enum {
     STATE_GAME = 1,      // 游戏中
     STATE_PAUSE = 2,     // 暂停
     STATE_WIN =  3,      // 胜利
-    STATE_LOSE = 4,       // 失败
-    STATE_TEAM=5           // 团队介绍界面
+    STATE_LOSE = 4,      // 失败
+    STATE_TEAM= 5,       // 团队介绍界面
+    STATE_SET= 6        // 设置界面
 }GameState;
 
 typedef enum {
@@ -131,9 +137,10 @@ typedef struct {
 // 玩家设置
 #define PLAYER_WIDTH   40       // 玩家矩形的宽
 #define PLAYER_HEIGHT  60       // 玩家矩形的高
-#define PLAYER_SPEED   5.3f     // 玩家的速度
+#define PLAYER_SPEED   6.0f     // 玩家的速度
 #define JUMP_FORCE    -12.0f    // 起跳的速度
 #define GRAVITY        1.0f     // 重力
+#define FRICTION       0.8f     // 水平摩擦力
 
 // 按键定义(别忘了还有小写实现)
 #define KEY_FIRE_UP    'W'
@@ -155,3 +162,33 @@ typedef struct {
 #define COLOR_TRAP_SPIKE RGB(100, 100, 100)  // 尖刺灰色
 #define COLOR_DOOR      RGB(50, 200, 50)     // 门绿色
 #define COLOR_BG        RGB(200, 230, 255)   // 背景天蓝色
+
+
+// -------------------------- 音乐配置（自行修改相对路径） --------------------------
+// 1. 菜单/暂停共用音乐
+#define MENU_PAUSE_MUSIC  _T("menu.mp3")
+#define MENU_PAUSE_ALIAS  _T("menu_bgm")
+
+// 2. 游戏过程背景音乐
+#define GAME_PLAY_MUSIC   _T("backmusic.mp3")
+#define GAME_PLAY_ALIAS   _T("game_play_bgm")
+
+// 3. 胜利场景音乐（单次播放）
+#define WIN_MUSIC         _T("win.mp3")
+#define WIN_ALIAS         _T("win_bgm")
+
+// 4. 失败场景音乐（单次播放）
+#define FAIL_MUSIC        _T("fail.mp3")
+#define FAIL_ALIAS        _T("fail_bgm")
+// ----------------------------------------------------------------------------------
+
+
+// 音乐状态枚举
+typedef enum {
+    MUSIC_STOP,   // 停止
+    MUSIC_PLAYING,// 播放中
+    MUSIC_PAUSED  // 暂停中
+} MusicState;
+
+extern bool g_musicEnabled;  // 音乐开关，在 Game.cpp 中定义
+extern int g_volumeLevel;      // 音量级别

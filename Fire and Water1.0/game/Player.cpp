@@ -38,6 +38,16 @@ void player_update(Player* p,Level* L) {
     // 应用重力
     p->velocity.y += GRAVITY;
    
+    // 应用摩擦力
+    // 当玩家没有主动移动输入时，facing == DIR_STAND，此时应用摩擦力
+    //if (p->facing == DIR_STAND) {
+        p->velocity.x *= FRICTION;
+
+        // 如果速度已经很小，直接设为0
+        if (fabs(p->velocity.x) < 0.3f) {
+            p->velocity.x = 0;
+        }
+    //}
 
     // 限制最大下落速度
     if (p->velocity.y > 12.0f) {
@@ -45,8 +55,11 @@ void player_update(Player* p,Level* L) {
     }
 
     // 更新位置
-    if (p->facing != DIR_STAND) {
+    //if (p->facing != DIR_STAND ) {
         p->position.x += p->velocity.x;
+    //}
+    if (p->isJumping) {
+        p->facing = DIR_STAND;
     }
     p->position.y += p->velocity.y;
     collision_check(p, L);
@@ -67,8 +80,18 @@ void player_move(Player* p, float dx) {
     // dx = 0：停止移动  
     // dx = 1：向右移动
 
-    // 设置水平速度
-    p->velocity.x = dx * PLAYER_SPEED;
+    // **改为添加速度，而不是设置速度**
+    float targetSpeed = dx * PLAYER_SPEED;
+
+    // 计算需要增加的速度
+    float acceleration = targetSpeed * 0.5f;  // 加速度因子，可调整
+
+    p->velocity.x += acceleration;
+
+    // 限制最大速度
+    float maxSpeed = PLAYER_SPEED;
+    if (p->velocity.x > maxSpeed) p->velocity.x = maxSpeed;
+    if (p->velocity.x < -maxSpeed) p->velocity.x = -maxSpeed;
 
     // 记录朝向（用于绘制和动画）
     if (dx < 0) {

@@ -6,6 +6,7 @@
 #include "../game/Game.h"
 #include "../game/Player.h"
 #include "../game/Level.h"
+#include "../game/Music.h"
 #include <stdio.h>
 #include <string>
 
@@ -234,4 +235,82 @@ void ui_draw_lose() {
     render_text(400 - textwidth("按 Esc 返回菜单") / 2, 400, "按 Esc 返回菜单", WHITE);
 
     render_present();
+}
+
+
+// 绘制设置界面
+void ui_draw_set(int selection) {
+    render_clear();
+
+    IMAGE p;
+    loadimage(&p, "setbackground.png", WINDOW_WIDTH, WINDOW_HEIGHT);
+    putimage(0, 0, &p);
+
+    settextstyle(32,0,"宋体");
+
+
+    if (selection == 0) {
+        settextcolor(YELLOW);
+        if (g_musicEnabled) {
+            outtextxy(325, 100, "> 音乐：开 <");
+        }
+        else {
+            outtextxy(325, 100, "> 音乐：关 <");
+        }
+    }
+    else {
+        settextcolor(WHITE);
+        if (g_musicEnabled) {
+            outtextxy(350, 100, "音乐：开");
+        }
+        else {
+            outtextxy(350, 100, "音乐：关");
+        }
+    }
+
+    if (selection == 1) {
+        settextcolor(YELLOW);
+        char volumeText[64];
+        sprintf(volumeText, "> 音量：%d%% <", g_volumeLevel);
+        outtextxy(325, 150, volumeText);
+
+        // 显示音量条
+        int barWidth = 200;
+        int barHeight = 20;
+        int barX = 425;
+        int barY = 190;
+
+        // 背景条
+        setfillcolor(RGB(100, 100, 100));
+        fillrectangle(barX-100, barY, barX + barWidth-100, barY + barHeight);
+
+        // 音量条
+        setfillcolor(RGB(0, 200, 0));
+        int fillWidth = (int)(barWidth * (g_volumeLevel / 100.0));
+        fillrectangle(barX-100, barY, barX + fillWidth-100, barY + barHeight);
+
+        // 边框
+        setlinecolor(WHITE);
+        rectangle(barX-100, barY, barX + barWidth-100, barY + barHeight);
+
+        // 显示音量调节提示
+        settextstyle(20, 0, "宋体");
+        settextcolor(WHITE);
+        outtextxy(325, 220, "A D 调节音量");
+
+        // 重置字体大小
+        settextstyle(32, 0, "宋体");
+    }
+    else {
+        settextcolor(WHITE);
+        char volumeText[64];
+        sprintf(volumeText, "音量：%d%%", g_volumeLevel);
+        outtextxy(350, 150, volumeText);
+    }
+
+    // 操作提示
+    settextstyle(20, 0, "宋体");
+    settextcolor(RGB(200, 200, 200));
+    outtextxy(300, 500, "W/S: 选择选项  回车: 切换开关");
+    outtextxy(300, 530, "A/D: 调节音量（选中音量时）  ESC: 返回菜单");
 }
