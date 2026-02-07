@@ -103,7 +103,7 @@ int level_init(Level* level, int levelNum) {
         // 地图一的各种陷阱和出口
         level->trapstation1[0] = Trapstation{ 387,565,70,9,0,false };
         level->trapstation1[1] = Trapstation{ 546.65,565,71,9.5,1,false };
-        level->trapstation1[2] = Trapstation{ 504,454,67,6,2,false };
+        level->trapstation1[2] = Trapstation{ 510,454,67,6,2,false };
         level->trapstation1[3] = Trapstation{ 638.9,71.5,41,51.7,3,false };
         level->trapstation1[4] = Trapstation{ 698.25,76.55,46.88,46.23,4,false };
             
