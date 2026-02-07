@@ -52,21 +52,21 @@ void ui_draw_pause(int selection) {
 
     if (selection == 0) {
         settextcolor(YELLOW);  // 选中时黄色
-        outtextxy(475, 100, _T("> 继续游戏 <"));
+        outtextxy(325, 100, _T("> 继续游戏 <"));
     }
     else {
         settextcolor(WHITE);   // 未选中白色
-        outtextxy(500, 100, _T("继续游戏"));
+        outtextxy(350, 100, _T("继续游戏"));
     }
 
     // 选项2：退出游戏（selection=1表示选中）
     if (selection == 1) {
         settextcolor(YELLOW);
-        outtextxy(475, 150, _T("> 退回菜单 <"));
+        outtextxy(325, 150, _T("> 退回菜单 <"));
     }
     else {
         settextcolor(WHITE);
-        outtextxy(500, 150, _T("退回菜单"));
+        outtextxy(350, 150, _T("退回菜单"));
     }
 
     // 4. 画操作提示
@@ -204,17 +204,59 @@ void ui_draw_team() {
 
 
 // 绘制胜利界面
-void ui_draw_win(int levelNum) {
+void ui_draw_win(int levelNum,Level* l) {
     render_clear();
+    switch (l->currentMap) {
+    case 0:
+        for (int i = 0;i < l->diaCount;i++) {
+            if (l->diamond1[i].isGet == true) {
+                l->diamond1[i].isGet = false;
+                l->diacount1++;
+            }
+        }
+        break;
+    case 1:
+        for (int i = 0;i < l->diaCount;i++) {
+            if (l->diamond2[i].isGet == true) {
+                l->diamond2[i].isGet = false;
+                l->diacount2++;
+            }
+        }
+        break;
+    case 2:
+        for (int i = 0;i < l->diaCount;i++) {
+            if (l->diamond3[i].isGet == true) {
+                l->diamond3[i].isGet = false;
+                l->diacount3++;
+            }
+        }
+        break;
+    }
+
     IMAGE img_win_bg;
     loadimage(&img_win_bg, "winback.jpg", WINDOW_WIDTH, WINDOW_HEIGHT);
     putimage(0, 0, &img_win_bg);
 
     char winText[128];
     sprintf(winText, "YOU WIN! 关卡 %d 通过", levelNum+1);
-
     render_text(400 - textwidth(winText) / 2, 200, winText, YELLOW);
-    render_text(400 - textwidth("恭喜你通关！") / 2, 250, "恭喜你通关！", YELLOW);
+
+    switch (l->currentMap) {
+    case 0:
+        sprintf(winText, "共收集了 %d 颗宝石", l->diacount1);
+        render_text(400 - textwidth(winText) / 2, 235, winText, YELLOW);
+        break;
+    case 1:
+        sprintf(winText, "共收集了 %d 颗宝石", l->diacount2);
+        render_text(400 - textwidth(winText) / 2, 235, winText, YELLOW);
+        break;
+    case 2:
+        sprintf(winText, "共收集了 %d 颗宝石", l->diacount3);
+        render_text(400 - textwidth(winText) / 2, 235, winText, YELLOW);
+        break;
+    }
+
+    render_text(400 - textwidth("恭喜你通关！") / 2, 275, "恭喜你通关！", YELLOW);
     render_text(400 - textwidth("按 Enter 进入下一关") / 2, 350, "按 Enter 进入下一关", BLACK);
     render_text(400 - textwidth("按 Esc 返回菜单") / 2, 400, "按 Esc 返回菜单", BLACK);
 
@@ -222,8 +264,14 @@ void ui_draw_win(int levelNum) {
 }
 
 // 绘制失败界面
-void ui_draw_lose() {
+void ui_draw_lose(Level* l) {
     render_clear();
+
+    l->diacount1 = 0;
+    l->diacount2 = 0;
+    l->diacount3 = 0;
+
+    level_init(l, l->currentMap);
 
     IMAGE img_lose_bg;
     loadimage(&img_lose_bg, "loseback.jpg", WINDOW_WIDTH, WINDOW_HEIGHT);

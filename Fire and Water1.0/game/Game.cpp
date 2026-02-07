@@ -291,7 +291,7 @@ void game_handle_input(Game* game) {
             player_init(&game->firePlayer, PLAYER_FIRE, game->currentLevel.fireStart.x, game->currentLevel.fireStart.y);
             player_init(&game->waterPlayer, PLAYER_WATER, game->currentLevel.waterStart.x, game->currentLevel.waterStart.y);
 
-            if (game->currentLevelNum >= 3 && game->currentLevel.currentMap >= 3) {
+            if (game->currentLevelNum >= 3 && game->currentLevel.currentMap >= 3 && canProcessInput) {
                 game->currentLevelNum=0;
                 game->currentLevel.currentMap=0;
                 game->state = STATE_MENU;
@@ -299,6 +299,7 @@ void game_handle_input(Game* game) {
                 level_init(&game->currentLevel, game->currentLevelNum);
                 player_init(&game->firePlayer, PLAYER_FIRE, game->currentLevel.fireStart.x, game->currentLevel.fireStart.y);
                 player_init(&game->waterPlayer, PLAYER_WATER, game->currentLevel.waterStart.x, game->currentLevel.waterStart.y);
+                g_lastInputTime = currentTime;
                 break;
             }
             game->state = STATE_GAME;
@@ -380,11 +381,11 @@ void game_draw(Game* game) {
         break;
 
     case STATE_WIN:
-        ui_draw_win(game->currentLevelNum);  // 胜利界面
+        ui_draw_win(game->currentLevelNum,&game->currentLevel);  // 胜利界面
         break;
 
     case STATE_LOSE:
-        ui_draw_lose();  // 失败界面
+        ui_draw_lose(&game->currentLevel);  // 失败界面
         break;
     case STATE_TEAM:
         ui_draw_team();  // 团队介绍界面

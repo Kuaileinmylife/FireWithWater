@@ -95,6 +95,21 @@ bool collision_check(Player* player,Level* level) {
 				}
 			}
 		}
+
+
+		// 宝石检测
+		for (int i = 0;i < level->diaCount;i++) {
+			if (player->position.x + player->position.width >= level->diamond1[i].x && player->position.x <= level->diamond1[i].x + level->diamond1[i].width
+				&& player->position.y <= level->diamond1[i].y + level->diamond1[i].height && player->position.y + player->position.height >= level->diamond1[i].y) {
+				if (player->type == PLAYER_FIRE && level->diamond1[i].type==0) {
+					level->diamond1[i].isGet = true;
+				}
+
+				if (player->type == PLAYER_WATER && level->diamond1[i].type == 1) {
+					level->diamond1[i].isGet = true;
+				}
+			}
+		}
 	}
 
 	// 第二关碰撞检测
@@ -201,6 +216,21 @@ bool collision_check(Player* player,Level* level) {
 				}
 			}
 		}
+
+
+		// 宝石检测
+		for (int i = 0;i < level->diaCount;i++) {
+			if (player->position.x + player->position.width >= level->diamond2[i].x && player->position.x <= level->diamond2[i].x + level->diamond2[i].width
+				&& player->position.y <= level->diamond2[i].y + level->diamond2[i].height && player->position.y + player->position.height >= level->diamond2[i].y) {
+				if (player->type == PLAYER_FIRE && level->diamond2[i].type == 0) {
+					level->diamond2[i].isGet = true;
+				}
+
+				if (player->type == PLAYER_WATER && level->diamond2[i].type == 1) {
+					level->diamond2[i].isGet = true;
+				}
+			}
+		}
 	}
 
 	// 第三关碰撞检测
@@ -261,7 +291,6 @@ bool collision_check(Player* player,Level* level) {
 					player->position.x = platRight; // 调整到平台右边
 					player->velocity.x = 0;  // 停止向左移动
 				}
-				//return true;
 			}
 		}
 
@@ -298,6 +327,21 @@ bool collision_check(Player* player,Level* level) {
 				}
 			}
 		}
+
+		// 宝石检测
+		for (int i = 0;i < level->diaCount;i++) {
+			if (player->position.x + player->position.width >= level->diamond3[i].x && player->position.x <= level->diamond3[i].x + level->diamond3[i].width
+				&& player->position.y <= level->diamond3[i].y + level->diamond3[i].height && player->position.y + player->position.height >= level->diamond3[i].y) {
+				if (player->type == PLAYER_FIRE && level->diamond3[i].type == 0) {
+					level->diamond3[i].isGet = true;
+				}
+
+				if (player->type == PLAYER_WATER && level->diamond3[i].type == 1) {
+					level->diamond3[i].isGet = true;
+				}
+			}
+		}
+
 	}
 	return false;       
 }

@@ -35,6 +35,13 @@ typedef struct {
     float groundY;        // 地面的Y坐标（如果站在平台上）
 } CollisionInfo;
 
+typedef struct {
+    float x, y;
+    float width, height;
+    int type;  // 0;红宝石  1；蓝宝石
+    bool isGet;
+}diamond;
+
 // ========== 基础类型 ==========
 
 typedef struct {
@@ -107,6 +114,7 @@ typedef struct {
 
     int platfromCount;            // 空气墙数量
     int trapCount;                // 陷阱数量
+    int diaCount;                 // 宝石数量
     int currentMap;               // 当前地图编号
 
     MapBoundary mapboundary_level1[4];  // 地图一的四个边界
@@ -123,7 +131,15 @@ typedef struct {
 
     CollisionInfo info;
 
+    diamond diamond1[10];
+    diamond diamond2[10];
+    diamond diamond3[10];
+
     bool isinit;
+
+    int diacount1;
+    int diacount2;
+    int diacount3;
 } Level;
 
 

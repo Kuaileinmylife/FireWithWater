@@ -1,5 +1,5 @@
 #pragma once
-
+#include "../common.h"
 
 // 前向声明
 struct Game;
@@ -34,7 +34,7 @@ void ui_draw_team();
 // 2：显示胜利的大标题，然后是通关的关卡数
 // 3：显示下一步提示
 // 4：之后可以考虑胜利触发特效(拓展)
-void ui_draw_win(int levelNum);
+void ui_draw_win(int levelNum, Level* l);
 
 // 绘制失败界面
 // 功能：失败界面显示
@@ -42,7 +42,7 @@ void ui_draw_win(int levelNum);
 // 2：显示失败的大标题
 // 3：显示下一步提示
 // 4：之后可以考虑失败触发特效(拓展)
-void ui_draw_lose();
+void ui_draw_lose(Level* l);
 
 
 // 绘制设置界面

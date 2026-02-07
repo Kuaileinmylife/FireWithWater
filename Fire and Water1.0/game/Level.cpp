@@ -92,9 +92,12 @@ int level_init(Level* level, int levelNum) {
         level->platfrom_level1[58] = Platfrom{ 423,325,8,10 };
         level->platfrom_level1[59] = Platfrom{ 409,310,20,20 };
 
+        level->platfrom_level1[60] = Platfrom{ 310,407,48, 20};
+
+
         
         // 设置空气墙的数量
-        level->platfromCount = 60;
+        level->platfromCount = 61;
         
 
         // 地图一的各种陷阱和出口
@@ -112,6 +115,22 @@ int level_init(Level* level, int levelNum) {
         level->fireStart.y = 518;
         level->waterStart.x = 92;
         level->waterStart.y = 437;
+
+
+
+        // 设置宝石位置
+        level->diamond1[0] = diamond{ 413,556,20,20,0,false };
+        level->diamond1[1] = diamond{ 151,383,20,20,0,false };
+        level->diamond1[2] = diamond{ 623,213,20,20,0,false };
+        level->diamond1[3] = diamond{ 573,556,20,20,1,false };
+        level->diamond1[4] = diamond{ 418,434,20,20,1,false };
+        level->diamond1[5] = diamond{ 218,69,20,20,1,false };
+
+        // 设置宝石数量
+        level->diaCount = 6;
+
+        // 设置宝石搜集的数量
+        level->diacount1 = 0;
     }
 
     // 创建地图 第二关
@@ -163,7 +182,7 @@ int level_init(Level* level, int levelNum) {
 
         // 地图二的各种陷阱和出口
         level->trapstation2[0] = Trapstation{ 450.0, 331.0, 157.0, 12.0,2,false };
-        level->trapstation2[1] = Trapstation{ 162.0, 331.0, 177.0, 13.0,2,false };
+        level->trapstation2[1] = Trapstation{ 184.0, 331.0, 177.0, 13.0,2,false };
         level->trapstation2[2] = Trapstation{ 460.0, 516.0, 161.0, 13.0,0,false };
         level->trapstation2[3] = Trapstation{ 128.0, 578.0, 178.0, 11.0,0,false };
         level->trapstation2[4] = Trapstation{ 124.0, 515.0, 185.0, 13.0,1,false };
@@ -184,6 +203,21 @@ int level_init(Level* level, int levelNum) {
         level->fireStart.y = 530;
         level->waterStart.x = 79;
         level->waterStart.y = 530;
+
+
+        // 设置宝石位置
+        level->diamond2[0] = diamond{ 523,509,20,20,0,false };
+        level->diamond2[1] = diamond{ 387,293,20,20,0,false };
+        level->diamond2[2] = diamond{ 381,130,20,20,0,false };
+        level->diamond2[3] = diamond{ 521,571,20,20,1,false };
+        level->diamond2[4] = diamond{ 43,354,20,20,1,false };
+        level->diamond2[5] = diamond{ 740,190,20,20,1,false };
+
+        // 设置宝石数量
+        level->diaCount = 6;
+
+        // 设置宝石搜集的数量
+        level->diacount2 = 0;
     }
 
     // 创建地图 第三关
@@ -326,6 +360,20 @@ int level_init(Level* level, int levelNum) {
         level->fireStart.y = 48;
         level->waterStart.x = 719;
         level->waterStart.y = 47;
+
+        // 设置宝石位置
+        level->diamond3[0] = diamond{ 641,273,20,20,0,false };
+        level->diamond3[1] = diamond{ 394,402,20,20,0,false };
+        level->diamond3[2] = diamond{ 395,455,20,20,0,false };
+        level->diamond3[3] = diamond{ 138, 274,20,20,1,false };
+        level->diamond3[4] = diamond{ 311,445,20,20,1,false };
+        level->diamond3[5] = diamond{ 475,444,20,20,1,false };
+
+        // 设置宝石数量
+        level->diaCount = 6;
+
+        // 设置宝石搜集的数量
+        level->diacount3 = 0;
     }
 
     return level->currentMap;
@@ -339,6 +387,95 @@ void level_draw(const Level* level, TextureManager* tm) {
     case 0:
         loadimage(&p, "map1.png", WINDOW_WIDTH, WINDOW_HEIGHT);
         putimage(0, 0, &p);
+
+        loadimage(&p, "reddia.png", 20, 20);
+        if (level->diamond1[0].isGet == false) {
+            for (int x = 0; x < 20; x++) {
+                for (int y = 0; y < 20; y++) {
+
+                    SetWorkingImage(&p);
+                    COLORREF color = getpixel(x, y);
+                    SetWorkingImage();  // 切换回窗口
+
+                    if (color != BLACK) {
+                        putpixel(413 + x, 556 + y, color);
+                    }
+                }
+            }
+        }
+        if (level->diamond1[1].isGet == false) {
+            for (int x = 0; x < 20; x++) {
+                for (int y = 0; y < 20; y++) {
+
+                    SetWorkingImage(&p);
+                    COLORREF color = getpixel(x, y);
+                    SetWorkingImage();  // 切换回窗口
+
+                    if (color != BLACK) {
+                        putpixel(151 + x, 383 + y, color);
+                    }
+                }
+            }
+        }
+        if (level->diamond1[2].isGet == false) {
+            for (int x = 0; x < 20; x++) {
+                for (int y = 0; y < 20; y++) {
+
+                    SetWorkingImage(&p);
+                    COLORREF color = getpixel(x, y);
+                    SetWorkingImage();  // 切换回窗口
+
+                    if (color != BLACK) {
+                        putpixel(623 + x, 213 + y, color);
+                    }
+                }
+            }
+        }
+
+        loadimage(&p, "bluedia.png", 20, 20);
+        if (level->diamond1[3].isGet == false) {
+            for (int x = 0; x < 20; x++) {
+                for (int y = 0; y < 20; y++) {
+
+                    SetWorkingImage(&p);
+                    COLORREF color = getpixel(x, y);
+                    SetWorkingImage();  // 切换回窗口
+
+                    if (color != BLACK) {
+                        putpixel(573 + x, 556 + y, color);
+                    }
+                }
+            }
+        }
+        if (level->diamond1[4].isGet == false) {
+            for (int x = 0; x < 20; x++) {
+                for (int y = 0; y < 20; y++) {
+
+                    SetWorkingImage(&p);
+                    COLORREF color = getpixel(x, y);
+                    SetWorkingImage();  // 切换回窗口
+
+                    if (color != BLACK) {
+                        putpixel(418 + x, 434 + y, color);
+                    }
+                }
+            }
+        }
+        if (level->diamond1[5].isGet == false) {
+            for (int x = 0; x < 20; x++) {
+                for (int y = 0; y < 20; y++) {
+
+                    SetWorkingImage(&p);
+                    COLORREF color = getpixel(x, y);
+                    SetWorkingImage();  // 切换回窗口
+
+                    if (color != BLACK) {
+                        putpixel(218 + x, 69 + y, color);
+                    }
+                }
+            }
+        }
+
         break;
     case 1:{
         loadimage(&p, "map2.jpg", WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -396,11 +533,187 @@ void level_draw(const Level* level, TextureManager* tm) {
                 }
             }
         }
+
+        loadimage(&p, "reddia.png", 20, 20);
+        if (level->diamond2[0].isGet == false) {
+            for (int x = 0; x < 20; x++) {
+                for (int y = 0; y < 20; y++) {
+
+                    SetWorkingImage(&p);
+                    COLORREF color = getpixel(x, y);
+                    SetWorkingImage();  // 切换回窗口
+
+                    if (color != BLACK) {
+                        putpixel(523 + x, 509 + y, color);
+                    }
+                }
+            }
+        }
+        if (level->diamond2[1].isGet == false) {
+            for (int x = 0; x < 20; x++) {
+                for (int y = 0; y < 20; y++) {
+
+                    SetWorkingImage(&p);
+                    COLORREF color = getpixel(x, y);
+                    SetWorkingImage();  // 切换回窗口
+
+                    if (color != BLACK) {
+                        putpixel(387 + x, 293 + y, color);
+                    }
+                }
+            }
+        }
+        if (level->diamond2[2].isGet == false) {
+            for (int x = 0; x < 20; x++) {
+                for (int y = 0; y < 20; y++) {
+
+                    SetWorkingImage(&p);
+                    COLORREF color = getpixel(x, y);
+                    SetWorkingImage();  // 切换回窗口
+
+                    if (color != BLACK) {
+                        putpixel(381 + x, 130 + y, color);
+                    }
+                }
+            }
+        }
+
+        loadimage(&p, "bluedia.png", 20, 20);
+        if (level->diamond2[3].isGet == false) {
+            for (int x = 0; x < 20; x++) {
+                for (int y = 0; y < 20; y++) {
+
+                    SetWorkingImage(&p);
+                    COLORREF color = getpixel(x, y);
+                    SetWorkingImage();  // 切换回窗口
+
+                    if (color != BLACK) {
+                        putpixel(521 + x, 571 + y, color);
+                    }
+                }
+            }
+        }
+        if (level->diamond2[4].isGet == false) {
+            for (int x = 0; x < 20; x++) {
+                for (int y = 0; y < 20; y++) {
+
+                    SetWorkingImage(&p);
+                    COLORREF color = getpixel(x, y);
+                    SetWorkingImage();  // 切换回窗口
+
+                    if (color != BLACK) {
+                        putpixel(43 + x, 354 + y, color);
+                    }
+                }
+            }
+        }
+        if (level->diamond2[5].isGet == false) {
+            for (int x = 0; x < 20; x++) {
+                for (int y = 0; y < 20; y++) {
+
+                    SetWorkingImage(&p);
+                    COLORREF color = getpixel(x, y);
+                    SetWorkingImage();  // 切换回窗口
+
+                    if (color != BLACK) {
+                        putpixel(740 + x, 190 + y, color);
+                    }
+                }
+            }
+        }
         break;
     }
     case 2:
         loadimage(&p, "map3.jpg", WINDOW_WIDTH, WINDOW_HEIGHT);
         putimage(0, 0, &p);
+
+        loadimage(&p, "reddia.png", 20, 20);
+        if (level->diamond3[0].isGet == false) {
+            for (int x = 0; x < 20; x++) {
+                for (int y = 0; y < 20; y++) {
+
+                    SetWorkingImage(&p);
+                    COLORREF color = getpixel(x, y);
+                    SetWorkingImage();  // 切换回窗口
+
+                    if (color != BLACK) {
+                        putpixel(641 + x, 273 + y, color);
+                    }
+                }
+            }
+        }
+        if (level->diamond3[1].isGet == false) {
+            for (int x = 0; x < 20; x++) {
+                for (int y = 0; y < 20; y++) {
+
+                    SetWorkingImage(&p);
+                    COLORREF color = getpixel(x, y);
+                    SetWorkingImage();  // 切换回窗口
+
+                    if (color != BLACK) {
+                        putpixel(394 + x, 402 + y, color);
+                    }
+                }
+            }
+        }
+        if (level->diamond3[2].isGet == false) {
+            for (int x = 0; x < 20; x++) {
+                for (int y = 0; y < 20; y++) {
+
+                    SetWorkingImage(&p);
+                    COLORREF color = getpixel(x, y);
+                    SetWorkingImage();  // 切换回窗口
+
+                    if (color != BLACK) {
+                        putpixel(395 + x, 455 + y, color);
+                    }
+                }
+            }
+        }
+
+        loadimage(&p, "bluedia.png", 20, 20);
+        if (level->diamond3[3].isGet == false) {
+            for (int x = 0; x < 20; x++) {
+                for (int y = 0; y < 20; y++) {
+
+                    SetWorkingImage(&p);
+                    COLORREF color = getpixel(x, y);
+                    SetWorkingImage();  // 切换回窗口
+
+                    if (color != BLACK) {
+                        putpixel(138 + x, 274 + y, color);
+                    }
+                }
+            }
+        }
+        if (level->diamond3[4].isGet == false) {
+            for (int x = 0; x < 20; x++) {
+                for (int y = 0; y < 20; y++) {
+
+                    SetWorkingImage(&p);
+                    COLORREF color = getpixel(x, y);
+                    SetWorkingImage();  // 切换回窗口
+
+                    if (color != BLACK) {
+                        putpixel(311 + x, 445 + y, color);
+                    }
+                }
+            }
+        }
+        if (level->diamond3[5].isGet == false) {
+            for (int x = 0; x < 20; x++) {
+                for (int y = 0; y < 20; y++) {
+
+                    SetWorkingImage(&p);
+                    COLORREF color = getpixel(x, y);
+                    SetWorkingImage();  // 切换回窗口
+
+                    if (color != BLACK) {
+                        putpixel(475 + x, 444 + y, color);
+                    }
+                }
+            }
+        }
         break;
     }
 }
