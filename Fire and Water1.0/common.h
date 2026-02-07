@@ -24,7 +24,7 @@ typedef struct {
 typedef struct {
     float x, y;    // 位置
     float width, height;  // 尺寸
-    int type;   // 0:火池，1：水池，2：毒池，3：火出口，4：水出口
+    int type;   // 0:火池，1：水池，2：毒池，3：火出口，4：水出口 ,5: 门  ,6: 按钮
     bool isActive;  // 是否在区域内
 }Trapstation;// 陷阱和出口
 

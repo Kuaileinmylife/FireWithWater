@@ -22,8 +22,6 @@ int level_init(Level* level, int levelNum) {
 
     // 创建地图 第一关
     if (level->currentMap == 0) {
-
-        // level->info.groundY=多少       这个根据地图来定
          
         // 地图一的边界
         level->mapboundary_level1[0] = MapBoundary{ 18,9,19,580 };
@@ -158,10 +156,12 @@ int level_init(Level* level, int levelNum) {
         level->platfrom_level2[30] = Platfrom{ 125, 585, 182,10 };
         level->platfrom_level2[31] = Platfrom{ 459, 585, 152, 10};
 
-        // 设置空气墙的数量
-        level->platfromCount = 32;
+        level->platfrom_level2[32] = Platfrom{ 397, 354, 13, 81};
 
-        // 地图一的各种陷阱和出口
+        // 设置空气墙的数量
+        level->platfromCount = 33;
+
+        // 地图二的各种陷阱和出口
         level->trapstation2[0] = Trapstation{ 450.0, 331.0, 157.0, 12.0,2,false };
         level->trapstation2[1] = Trapstation{ 162.0, 331.0, 177.0, 13.0,2,false };
         level->trapstation2[2] = Trapstation{ 460.0, 516.0, 161.0, 13.0,0,false };
@@ -171,8 +171,13 @@ int level_init(Level* level, int levelNum) {
         level->trapstation2[6] = Trapstation{ 25.0,49.0, 52.0, 54,3,false };
         level->trapstation2[7] = Trapstation{ 91, 49.0, 49, 54,4,false };
 
+        level->trapstation2[8] = Trapstation{ 397, 354, 13, 81,5,false };
+        level->trapstation2[9] = Trapstation{ 341, 109, 109, 18,5,false };
+        level->trapstation2[10] = Trapstation{ 525, 430, 20, 20,6,false };
+        level->trapstation2[11] = Trapstation{ 238, 430, 20, 20,6,false };
+
         // 设置陷阱和出口一共的数量
-        level->trapCount = 8;
+        level->trapCount = 12;
 
         // 设置玩家的出生位置
         level->fireStart.x = 36;
@@ -335,10 +340,64 @@ void level_draw(const Level* level, TextureManager* tm) {
         loadimage(&p, "map1.png", WINDOW_WIDTH, WINDOW_HEIGHT);
         putimage(0, 0, &p);
         break;
-    case 1:
+    case 1:{
         loadimage(&p, "map2.jpg", WINDOW_WIDTH, WINDOW_HEIGHT);
         putimage(0, 0, &p);
+
+        // 按钮图片
+        IMAGE buttonImg;
+        loadimage(&buttonImg, "button.png", 20, 20);
+
+        // 使用透明混合绘制按钮
+        for (int x = 0; x < 20; x++) {
+            for (int y = 0; y < 20; y++) {
+
+                //先设置操作目标，再获取像素
+                SetWorkingImage(&buttonImg);
+                COLORREF color = getpixel(x, y);
+                SetWorkingImage();  // 切换回窗口
+
+                // 检查是否是透明色（黑色）
+                if (color != BLACK) {
+                    putpixel(525 + x, 415 + y, color);
+                }
+            }
+        }
+
+        // 绘制第二个按钮
+        for (int x = 0; x < 20; x++) {
+            for (int y = 0; y < 20; y++) {
+
+                SetWorkingImage(&buttonImg);
+                COLORREF color = getpixel(x, y);
+                SetWorkingImage();  // 切换回窗口
+
+                if (color != BLACK) {
+                    putpixel(238 + x, 415 + y, color);
+                }
+            }
+        }
+
+        if (level->trapstation2[8].isActive == false) {
+            IMAGE Door;
+            loadimage(&Door, "door.png", 13, 81);
+            for (int x = 0; x < 13; x++) {
+                for (int y = 0; y < 81; y++) {
+
+                    //先设置操作目标，再获取像素
+                    SetWorkingImage(&Door);
+                    COLORREF color = getpixel(x, y);
+                    SetWorkingImage();  // 切换回窗口
+
+                    // 检查是否是透明色（黑色）
+                    if (color != BLACK) {
+                        putpixel(397 + x, 354 + y, color);
+                    }
+                }
+            }
+        }
         break;
+    }
     case 2:
         loadimage(&p, "map3.jpg", WINDOW_WIDTH, WINDOW_HEIGHT);
         putimage(0, 0, &p);

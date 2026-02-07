@@ -333,6 +333,8 @@ void game_update(Game* game) {
     switch (game->state) {
     case STATE_GAME:
         // ¸üÐÂÍæ¼Ò
+        game->currentLevel.trapstation2[8].isActive = false;
+
         player_update(&game->firePlayer,&game->currentLevel);
         player_update(&game->waterPlayer,&game->currentLevel);
 

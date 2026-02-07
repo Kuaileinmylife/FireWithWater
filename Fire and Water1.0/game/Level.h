@@ -4,20 +4,20 @@
 // 前向声明
 struct TextureManager;
 
-// 辅助函数，供level_init用
-// 添加陷阱到关卡（供 level_init 内部调用）
-static void add_trap(Level* level, float x, float y, float w, float h, TrapType type) {
-    if (!level || level->trapCount >= 10) return;
-
-    // 设置陷阱矩形
-    level->trapRects[level->trapCount] = Rect{ x, y, w, h };
-
-    // 设置陷阱类型
-    level->traps[level->trapCount] = type;
-
-    // 陷阱数量+1
-    level->trapCount++;
-}
+//// 辅助函数，供level_init用
+//// 添加陷阱到关卡（供 level_init 内部调用）
+//static void add_trap(Level* level, float x, float y, float w, float h, TrapType type) {
+//    if (!level || level->trapCount >= 10) return;
+//
+//    // 设置陷阱矩形
+//    level->trapRects[level->trapCount] = Rect{ x, y, w, h };
+//
+//    // 设置陷阱类型
+//    level->traps[level->trapCount] = type;
+//
+//    // 陷阱数量+1
+//    level->trapCount++;
+//}
 
 // 关卡函数声明
 

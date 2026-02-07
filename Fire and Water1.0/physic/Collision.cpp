@@ -59,19 +59,9 @@ bool collision_check(Player* player,Level* level) {
 					player->position.x = platRight; // 调整到平台右边
 					player->velocity.x = 0;  // 停止向左移动
 				}
-				//return true;
 			}
 		}
-		// 循环地图各个关键的坐标如果碰到了或者触发了需要进行对应的处理
-		// 地图边界的碰撞检测
-		/*for (int i = 0;i < 4;i++) {
-			if (player->position.x + player->position.width >= level->mapboundary_level1[i].x && player->position.x <= level->mapboundary_level1[i].x + level->mapboundary_level1[i].width
-				&& player->position.y <= level->mapboundary_level1[i].y + level->mapboundary_level1[i].height && player->position.y + player->position.height >= level->mapboundary_level1[i].y) {
-				level->info.shouldStopX = true;
-				level->info.shouldStopY = true;
-				return true;
-			}
-		}*/
+		
 
 		// 陷阱的检测
 		for (int i = 0;i < level->trapCount;i++) {
@@ -109,10 +99,12 @@ bool collision_check(Player* player,Level* level) {
 
 	// 第二关碰撞检测
 	if (level->currentMap == 1) {
+
 		// 空气墙的检测
 		for (int i = 0;i < level->platfromCount;i++) {
 			if (player->position.x + player->position.width >= level->platfrom_level2[i].x && player->position.x <= level->platfrom_level2[i].x + level->platfrom_level2[i].width
 				&& player->position.y <= level->platfrom_level2[i].y + level->platfrom_level2[i].height && player->position.y + player->position.height >= level->platfrom_level2[i].y) {
+
 				float playerLeft = player->position.x;
 				float playerRight = player->position.x + player->position.width;
 				float playerTop = player->position.y;
@@ -165,7 +157,6 @@ bool collision_check(Player* player,Level* level) {
 					player->position.x = platRight; // 调整到平台右边
 					player->velocity.x = 0;  // 停止向左移动
 				}
-				//return true;
 			}
 		}
 		
@@ -174,7 +165,6 @@ bool collision_check(Player* player,Level* level) {
 		for (int i = 0;i < level->trapCount;i++) {
 			if (player->position.x + player->position.width >= level->trapstation2[i].x && player->position.x <= level->trapstation2[i].x + level->trapstation2[i].width
 				&& player->position.y <= level->trapstation2[i].y + level->trapstation2[i].height && player->position.y + player->position.height >= level->trapstation2[i].y) {
-
 				switch (level->trapstation2[i].type) {
 				case 0:// 火池
 					if (player->type == PLAYER_WATER) {
@@ -198,6 +188,15 @@ bool collision_check(Player* player,Level* level) {
 					if (player->type == PLAYER_WATER) {
 						player->iswin = true;
 					}
+					break;
+				case 5:// 门
+					if (level->trapstation2[8].isActive == false) {
+						level->platfromCount = 33;
+					}
+					break;
+				case 6:// 按钮
+					level->platfromCount=32;
+					level->trapstation2[8].isActive = true;
 					break;
 				}
 			}
