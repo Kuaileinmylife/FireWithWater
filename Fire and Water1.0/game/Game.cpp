@@ -235,15 +235,15 @@ void game_handle_input(Game* game) {
             if (g_input.keyW) {
                 game->pauseSelection--;
                 g_lastInputTime = currentTime;
-                if (game->menuSelection < 0) {
-                    game->menuSelection = 1;  // 循环到最后一个
+                if (game->pauseSelection < 0) {
+                    game->pauseSelection = 1;  // 循环到最后一个
                 }
             }
             if (g_input.keyS) {
                 game->pauseSelection++;
                 g_lastInputTime = currentTime;
-                if (game->menuSelection > 1) {
-                    game->menuSelection = 0;  // 循环到第一个
+                if (game->pauseSelection > 1) {
+                    game->pauseSelection = 0;  // 循环到第一个
                 }
             }
         }

@@ -74,7 +74,7 @@ void music_game_play_play() {
         // 应用当前音量
         extern int g_volumeLevel;
         TCHAR cmd[256];
-        wsprintf(cmd, _T("setaudio ") MENU_PAUSE_ALIAS _T(" volume to %d"), g_volumeLevel * 10);
+        wsprintf(cmd, _T("setaudio ") GAME_PLAY_ALIAS _T(" volume to %d"), g_volumeLevel * 10);
         mciSendString(cmd, NULL, 0, NULL);
     }
 }
@@ -86,7 +86,7 @@ void music_game_play_pause() {
         // 应用当前音量
         extern int g_volumeLevel;
         TCHAR cmd[256];
-        wsprintf(cmd, _T("setaudio ") MENU_PAUSE_ALIAS _T(" volume to %d"), g_volumeLevel * 10);
+        wsprintf(cmd, _T("setaudio ") GAME_PLAY_ALIAS _T(" volume to %d"), g_volumeLevel * 10);
         mciSendString(cmd, NULL, 0, NULL);
     }
 }
