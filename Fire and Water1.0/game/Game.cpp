@@ -90,6 +90,8 @@ void game_handle_input(Game* game) {
     case STATE_MENU:
         // 确保菜单音乐正在播放
         if (g_musicEnabled) {
+            music_game_play_pause();   // 暂停游戏音乐
+
             music_menu_pause_play();
         }
         
