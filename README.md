@@ -10,12 +10,6 @@
 
 游戏包含 **3 个精心设计的关卡**、**7 种游戏状态**（主菜单、游戏中、暂停、胜利、失败、团队介绍、设置），以及完整的背景音乐和音效系统。
 
-## 游戏截图
-
-> 运行截图请替换为实际截图路径
-
-<!-- ![游戏截图](screenshots/gameplay.png) -->
-
 ## 操作方式
 
 | 角色 | 移动 | 跳跃 |
@@ -79,7 +73,7 @@ Fire and Water1.0/
 
 1. 克隆仓库
    ```bash
-   git clone https://github.com/your-username/your-repo.git
+   git clone (https://github.com/Kuaileinmylife/FireWithWater)
    ```
 
 2. 安装 [EasyX](https://easyx.cn/)（如未安装）
