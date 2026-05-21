@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-ChildItem -Path \"D:\\\\Study Resource\\\\森林冰火人\\\\临时仓库\" -Directory -Recurse | ForEach-Object { $_.FullName })",
+      "PowerShell(& \"C:\\\\Program Files\\\\Git\\\\bin\\\\git.exe\" remote -v; & \"C:\\\\Program Files\\\\Git\\\\bin\\\\git.exe\" branch; & \"C:\\\\Program Files\\\\Git\\\\bin\\\\git.exe\" status)"
+    ]
+  }
+}
